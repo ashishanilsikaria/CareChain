@@ -3,15 +3,54 @@
 
 ---
 
-## Slide 1: Title & Vision
+## Institutional, Student & Project Metadata
+
+| Attribute | Details |
+| :--- | :--- |
+| **Project Title** | **CareChain** |
+| **Student Name** | **Ashish Anil Sikaria** |
+| **Register Number** | **23BCI0218** |
+| **Course** | **BCSE497J - Project - I** |
+| **Semester** | **Fall Semester 2026-27** |
+| **Course Option / Duration** | Regular • 6 (Months) |
+| **Project Option** | General |
+| **Registration Status** | Registered and Approved by Guide |
+| **Faculty Guide Name** | **Prof. SELVI M** |
+| **Guide Designation** | Associate Professor Grade 2 |
+| **Guide Employee ID** | 16106 |
+| **School / Department** | **SCOPE (School of Computer Science and Engineering)** |
+
+---
+
+## Slide 1: Title & Academic Project Profile
 ### CareChain: Sovereign Health Records, Decentralized & Tamper-Proof
-- **Subtitle**: Empowering patient data ownership through Ethereum Smart Contracts, AES-256 Client-Side Encryption, and Decentralized IPFS Storage.
-- **Presenter**: CareChain Core Engineering Team
+- **Student**: **Ashish Anil Sikaria** (Reg No: **23BCI0218**)
+- **Course**: **BCSE497J - Project - I** | **Semester**: **Fall Semester 2026-27**
+- **Faculty Guide**: **Prof. SELVI M** (Emp ID: **16106**, Associate Professor Grade 2, **SCOPE**)
+- **School**: School of Computer Science and Engineering (SCOPE)
+- **Status**: Registered and Approved by Guide • Regular (6 Months)
 - **Keywords**: Web3 Healthtech, Zero-Trust Architecture, Patient Sovereignty, IPFS, Smart Contract RBAC.
 
 ---
 
-## Slide 2: The Critical Problem in Modern Healthcare
+## Slide 2: Academic & Institutional Framework
+### Project Profile & Governance
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  PROJECT TITLE: CareChain                                                   │
+│  STUDENT: Ashish Anil Sikaria (Register No: 23BCI0218)                      │
+│  COURSE: BCSE497J - Project - I | SEMESTER: Fall Semester 2026-27           │
+│  DURATION: 6 Months (Regular) | PROJECT OPTION: General                     │
+│  SCHOOL: SCOPE (School of Computer Science and Engineering)                 │
+│  REGISTRATION STATUS: Registered and Approved by Guide                      │
+│  FACULTY GUIDE: Prof. SELVI M [Emp ID: 16106, Associate Professor Grade 2]   │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## Slide 3: The Critical Problem in Modern Healthcare
 ### The Crisis of Centralized Electronic Health Records (EHRs)
 1. **Rampant Data Breaches**: Over 133 million healthcare records breached in 2023–2025 alone due to centralized hospital server vulnerabilities.
 2. **Zero Patient Sovereignty**: Patient health data is commoditized and shared across insurance brokers without explicit patient consent.
@@ -20,7 +59,7 @@
 
 ---
 
-## Slide 3: The CareChain Solution
+## Slide 4: The CareChain Solution
 ### A Hybrid Web2/Web3 Zero-Trust Healthcare Architecture
 - **Cryptographic Encryption**: Client-side AES-256-GCM symmetric encryption before files ever leave the browser.
 - **Decentralized Storage**: Encrypted payloads pinned to IPFS nodes, generating immutable Content Identifiers (CIDs).
@@ -29,7 +68,7 @@
 
 ---
 
-## Slide 4: System Architecture & Technical Flow
+## Slide 5: System Architecture & Technical Flow
 ### End-to-End Cryptographic Lifecycle
 ```
 [ Patient Client ] ──(AES-256-GCM)──> [ Encrypted Payload ] ──> [ IPFS Network (Pinata CID) ]
@@ -45,7 +84,7 @@
 
 ---
 
-## Slide 5: UN Sustainable Development Goals (SDGs) Alignment
+## Slide 6: UN Sustainable Development Goals (SDGs) Alignment
 ### How CareChain Accelerates Global Impact
 
 | UN SDG | Target | CareChain Contribution |
@@ -57,7 +96,7 @@
 
 ---
 
-## Slide 6: Technology Readiness Level (TRL) Assessment
+## Slide 7: Technology Readiness Level (TRL) Assessment
 ### Current Status: **TRL 6 (Demonstration in Relevant Environment)**
 
 ```
@@ -77,7 +116,7 @@
 
 ---
 
-## Slide 7: Cutting-Edge Innovations & Differentiators
+## Slide 8: Cutting-Edge Innovations & Differentiators
 ### Moving Beyond Generic Student Projects
 1. **"Break-Glass" Emergency Override Protocol**: Time-delayed cryptographic challenges with trusted guardian approvals for unconscious trauma patients.
 2. **Zero-Knowledge (ZK) Health Claims**: zk-SNARK circuits allowing patients to prove age, lab threshold, or vaccination status without revealing raw medical files.
@@ -86,7 +125,7 @@
 
 ---
 
-## Slide 8: Business Model & Healthcare Ecosystem Impact
+## Slide 9: Business Model & Healthcare Ecosystem Impact
 ### Value Proposition Across Stakeholders
 - **For Patients**: Total ownership, zero data exploitation, instant portability.
 - **For Healthcare Providers**: Reduced malpractice liability, instant verified medical history, HIPAA-compliant sharing.
@@ -95,8 +134,12 @@
 
 ---
 
-## Slide 9: Conclusion & Next Steps
+## Slide 10: Conclusion & Project Governance
 ### CareChain: Setting the Standard for Web3 Healthcare
+- **Student**: **Ashish Anil Sikaria** (Reg No: **23BCI0218**)
+- **Course**: **BCSE497J - Project - I** | **Semester**: **Fall Semester 2026-27**
+- **Faculty Guide**: **Prof. SELVI M** (Emp ID: **16106**, Associate Professor Grade 2, **SCOPE**)
+- **Status**: Registered and Approved by Guide
 - **Live Demo**: Fully functional web application with Web3 MetaMask connectivity.
 - **Open-Source Repository**: Enterprise monorepo with CI/CD, documentation, and automated tests.
-- **Contact & Links**: [Documentation](file:///e:/dev/Project%201/MediBlock/docs/ARCHITECTURE.md) | [Security Guide](file:///e:/dev/Project%201/MediBlock/docs/SECURITY.md) | [GitHub Repository](https://github.com/your-org/carechain)
+- **Contact & Links**: [Documentation](file:///e:/dev/Project%201/MediBlock/docs/ARCHITECTURE.md) | [Security Guide](file:///e:/dev/Project%201/MediBlock/docs/SECURITY.md)
