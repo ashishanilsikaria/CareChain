@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>CareChain | BCSE497J Project - I Presentation</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -34,55 +34,80 @@
   <style>
     body {
       overflow: hidden;
-      background: radial-gradient(circle at top right, #0f172a 0%, #020617 100%);
+      transition: background-color 0.3s ease, color 0.3s ease;
     }
-    .glass-card {
+    .light body {
+      background: radial-gradient(circle at top right, #f8fafc 0%, #e2e8f0 100%);
+      color: #0f172a;
+    }
+    .dark body {
+      background: radial-gradient(circle at top right, #0f172a 0%, #020617 100%);
+      color: #f8fafc;
+    }
+    .light .glass-card {
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.02);
+    }
+    .dark .glass-card {
       background: rgba(15, 23, 42, 0.8);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
     }
     .slide-enter {
-      animation: fadeIn 0.4s ease-out forwards;
+      animation: fadeIn 0.35s ease-out forwards;
     }
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(12px) scale(0.99); }
+      from { opacity: 0; transform: translateY(8px) scale(0.995); }
       to { opacity: 1; transform: translateY(0) scale(1); }
     }
   </style>
 </head>
-<body class="text-slate-100 font-sans h-screen w-screen flex flex-col justify-between select-none">
+<body class="font-sans h-screen w-screen flex flex-col justify-between select-none">
 
   <!-- Top Navigation & Academic Metadata Bar -->
-  <header class="w-full px-6 py-3.5 flex items-center justify-between border-b border-slate-800/80 bg-slate-950/70 backdrop-blur-md z-30">
+  <header class="w-full px-6 py-3.5 flex items-center justify-between border-b border-slate-200 dark:border-slate-800/80 bg-white/80 dark:bg-slate-950/70 backdrop-blur-md z-30 transition-colors">
     <div class="flex items-center gap-3">
-      <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-sky-500 via-blue-600 to-indigo-600 flex items-center justify-center text-white font-bold shadow-lg shadow-sky-500/20">
+      <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-sky-500 to-blue-600 flex items-center justify-center text-white font-bold shadow-md shadow-sky-500/20">
         🩺
       </div>
       <div>
         <div class="flex items-center gap-2">
-          <h1 class="text-sm font-extrabold tracking-tight text-white">Care<span class="text-sky-400">Chain</span></h1>
-          <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-sky-900/60 text-sky-300 border border-sky-700/60">
+          <h1 class="text-sm font-extrabold tracking-tight text-slate-900 dark:text-white">Care<span class="text-sky-600 dark:text-sky-400">Chain</span></h1>
+          <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-sky-100 dark:bg-sky-900/60 text-sky-800 dark:text-sky-300 border border-sky-200 dark:border-sky-700/60">
             BCSE497J • Project - I
           </span>
         </div>
-        <p class="text-[10px] text-slate-400 font-medium">Ashish Anil Sikaria (23BCI0218) • Guide: Prof. SELVI M (SCOPE)</p>
+        <p class="text-[10px] text-slate-500 dark:text-slate-400 font-medium">Ashish Anil Sikaria (23BCI0218) • Guide: Prof. SELVI M (SCOPE)</p>
       </div>
     </div>
 
     <!-- Progress Indicator & Controls -->
     <div class="flex items-center gap-3">
-      <div class="flex items-center gap-1.5 bg-slate-900 border border-slate-700/80 rounded-xl px-3 py-1.5 text-xs font-mono">
-        <span class="text-sky-400 font-bold" id="current-slide">1</span>
-        <span class="text-slate-500">/</span>
-        <span class="text-slate-400" id="total-slides">10</span>
+      <div class="flex items-center gap-1.5 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl px-3 py-1.5 text-xs font-mono">
+        <span class="text-sky-600 dark:text-sky-400 font-bold" id="current-slide">1</span>
+        <span class="text-slate-400 dark:text-slate-500">/</span>
+        <span class="text-slate-600 dark:text-slate-400" id="total-slides">10</span>
       </div>
 
-      <button id="toggle-notes" class="px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700/80 text-xs font-semibold text-slate-300 transition-all flex items-center gap-1">
+      <!-- Theme Switcher -->
+      <button id="toggle-theme" class="px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-900 hover:bg-slate-200 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700/80 text-xs font-semibold text-slate-700 dark:text-slate-300 transition-all flex items-center gap-1">
+        <span id="theme-icon">🌙 Dark</span>
+      </button>
+
+      <button id="toggle-notes" class="px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-900 hover:bg-slate-200 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700/80 text-xs font-semibold text-slate-700 dark:text-slate-300 transition-all flex items-center gap-1">
         <span>💡 Key Focus</span>
       </button>
 
-      <button id="toggle-fs" class="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700/80 text-slate-300 text-xs transition-all" title="Toggle Fullscreen (F)">
+      <a href="CareChain_Presentation.pptx" download class="px-3 py-1.5 rounded-xl bg-sky-50 dark:bg-sky-950/60 hover:bg-sky-100 border border-sky-200 dark:border-sky-800 text-xs font-bold text-sky-700 dark:text-sky-300 transition-all flex items-center gap-1">
+        <span>📥 PPTX</span>
+      </a>
+
+      <button id="toggle-fs" class="p-2 rounded-xl bg-slate-100 dark:bg-slate-900 hover:bg-slate-200 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700/80 text-slate-700 dark:text-slate-300 text-xs transition-all" title="Toggle Fullscreen (F)">
         ⛶
       </button>
     </div>
@@ -91,41 +116,41 @@
   <!-- Slide Stage -->
   <main class="flex-1 max-w-6xl w-full mx-auto p-4 sm:p-6 lg:p-8 flex items-center justify-center overflow-y-auto">
     <div id="slide-container" class="w-full">
-      <!-- Slides will be rendered dynamically by JavaScript -->
+      <!-- Slides rendered dynamically by JavaScript -->
     </div>
   </main>
 
   <!-- Speaker Notes Drawer (Toggled) -->
   <div id="notes-drawer" class="hidden max-w-6xl mx-auto w-full px-6 mb-2">
-    <div class="glass-card rounded-2xl p-4 border border-sky-500/30 bg-slate-900/90 text-xs text-sky-200 flex items-start gap-3">
+    <div class="glass-card rounded-2xl p-4 border border-sky-300 dark:border-sky-500/30 bg-sky-50/90 dark:bg-slate-900/90 text-xs text-sky-900 dark:text-sky-200 flex items-start gap-3">
       <span class="text-base">📌</span>
       <div>
-        <p class="font-bold text-white mb-0.5" id="notes-title">Presentation Focus</p>
-        <p id="notes-content" class="text-slate-300">Notes content here.</p>
+        <p class="font-bold text-slate-900 dark:text-white mb-0.5" id="notes-title">Presentation Focus</p>
+        <p id="notes-content" class="text-slate-700 dark:text-slate-300">Notes content here.</p>
       </div>
     </div>
   </div>
 
   <!-- Bottom Bar: Navigation & Progress Bar -->
-  <footer class="w-full border-t border-slate-800/80 bg-slate-950/80 backdrop-blur-md px-6 py-3.5 z-30">
+  <footer class="w-full border-t border-slate-200 dark:border-slate-800/80 bg-white/80 dark:bg-slate-950/80 backdrop-blur-md px-6 py-3.5 z-30 transition-colors">
     <div class="max-w-6xl mx-auto flex items-center justify-between">
-      <div class="text-[11px] text-slate-500 font-medium">
-        Use <kbd class="px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 font-mono">←</kbd> <kbd class="px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 font-mono">→</kbd> or <kbd class="px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 font-mono">Space</kbd> to navigate
+      <div class="text-[11px] text-slate-500 dark:text-slate-400 font-medium">
+        Use <kbd class="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 font-mono">←</kbd> <kbd class="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 font-mono">→</kbd> or <kbd class="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 font-mono">Space</kbd> to navigate
       </div>
 
       <div class="flex items-center gap-2">
-        <button id="prev-btn" class="px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold border border-slate-700/80 transition-all disabled:opacity-30 disabled:cursor-not-allowed">
+        <button id="prev-btn" class="px-4 py-2 rounded-xl bg-slate-100 dark:bg-slate-900 hover:bg-slate-200 dark:hover:bg-slate-800 text-slate-700 dark:text-white text-xs font-bold border border-slate-200 dark:border-slate-700/80 transition-all disabled:opacity-30 disabled:cursor-not-allowed">
           ← Previous
         </button>
-        <button id="next-btn" class="px-5 py-2 rounded-xl bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-600 hover:to-blue-700 text-white text-xs font-bold shadow-lg shadow-sky-500/20 transition-all">
+        <button id="next-btn" class="px-5 py-2 rounded-xl bg-sky-600 hover:bg-sky-700 text-white text-xs font-bold shadow-md shadow-sky-500/20 transition-all">
           Next Slide →
         </button>
       </div>
     </div>
 
     <!-- Progress line -->
-    <div class="w-full bg-slate-900 h-1 mt-3 rounded-full overflow-hidden">
-      <div id="progress-bar" class="bg-gradient-to-r from-sky-500 to-indigo-500 h-1 transition-all duration-300" style="width: 10%;"></div>
+    <div class="w-full bg-slate-200 dark:bg-slate-900 h-1 mt-3 rounded-full overflow-hidden">
+      <div id="progress-bar" class="bg-gradient-to-r from-sky-500 to-blue-600 h-1 transition-all duration-300" style="width: 10%;"></div>
     </div>
   </footer>
 
@@ -138,40 +163,40 @@
         badge: "BCSE497J Project - I",
         notes: "Welcome the evaluators. Introduce yourself (Ashish Anil Sikaria, 23BCI0218), your guide Prof. SELVI M, and state the vision of CareChain.",
         html: `
-          <div class="glass-card rounded-3xl p-8 sm:p-10 text-center space-y-5 relative overflow-hidden slide-enter border border-sky-500/20">
+          <div class="glass-card rounded-3xl p-8 sm:p-10 text-center space-y-5 relative overflow-hidden slide-enter">
             <!-- Academic Pill -->
-            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-sky-500/10 border border-sky-400/30 text-sky-300 text-xs font-semibold">
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-sky-50 dark:bg-sky-500/10 border border-sky-200 dark:border-sky-400/30 text-sky-800 dark:text-sky-300 text-xs font-semibold">
               <span>🎓 Fall Semester 2026-27</span>
               <span>•</span>
               <span>BCSE497J - Project - I</span>
               <span>•</span>
-              <span class="text-emerald-400">Approved by Guide</span>
+              <span class="text-emerald-600 dark:text-emerald-400 font-bold">Approved by Guide</span>
             </div>
             
-            <h2 class="text-4xl sm:text-5xl font-extrabold text-white tracking-tight leading-tight">
-              Care<span class="text-sky-400">Chain</span>
+            <h2 class="text-4xl sm:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-tight">
+              Care<span class="text-sky-600 dark:text-sky-400">Chain</span>
             </h2>
-            <p class="text-base sm:text-lg font-semibold text-sky-200">
+            <p class="text-base sm:text-lg font-bold text-sky-700 dark:text-sky-200">
               Decentralized, Patient-Centric Electronic Health Record (EHR) Protocol
             </p>
 
-            <p class="text-slate-300 max-w-2xl mx-auto text-xs sm:text-sm leading-relaxed">
+            <p class="text-slate-600 dark:text-slate-300 max-w-2xl mx-auto text-xs sm:text-sm leading-relaxed">
               Empowering patient data ownership through Ethereum Smart Contracts, AES-256 Client-Side Encryption, and Decentralized IPFS Storage.
             </p>
 
             <!-- Student & Guide Box -->
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl mx-auto pt-4 text-left text-xs">
-              <div class="p-4 rounded-2xl bg-slate-900/90 border border-sky-500/30">
-                <span class="text-[10px] font-bold text-sky-400 uppercase tracking-wider block">Submitted By</span>
-                <p class="text-sm font-extrabold text-white mt-1">Ashish Anil Sikaria</p>
-                <p class="text-slate-400 font-mono text-[11px] mt-0.5">Register No: <span class="text-sky-300 font-bold">23BCI0218</span></p>
+              <div class="p-4 rounded-2xl bg-sky-50/70 dark:bg-slate-900/90 border border-sky-200 dark:border-sky-500/30">
+                <span class="text-[10px] font-bold text-sky-700 dark:text-sky-400 uppercase tracking-wider block">Submitted By</span>
+                <p class="text-sm font-extrabold text-slate-900 dark:text-white mt-1">Ashish Anil Sikaria</p>
+                <p class="text-slate-600 dark:text-slate-400 font-mono text-[11px] mt-0.5">Register No: <span class="text-sky-700 dark:text-sky-300 font-bold">23BCI0218</span></p>
                 <p class="text-slate-500 text-[10px] mt-0.5">School of Computer Science and Engineering (SCOPE)</p>
               </div>
 
-              <div class="p-4 rounded-2xl bg-slate-900/90 border border-indigo-500/30">
-                <span class="text-[10px] font-bold text-indigo-400 uppercase tracking-wider block">Under the Guidance of</span>
-                <p class="text-sm font-extrabold text-white mt-1">Prof. SELVI M</p>
-                <p class="text-slate-400 text-[11px] mt-0.5">Associate Professor Grade 2 • Emp ID: <span class="text-indigo-300 font-bold">16106</span></p>
+              <div class="p-4 rounded-2xl bg-indigo-50/70 dark:bg-slate-900/90 border border-indigo-200 dark:border-indigo-500/30">
+                <span class="text-[10px] font-bold text-indigo-700 dark:text-indigo-400 uppercase tracking-wider block">Under the Guidance of</span>
+                <p class="text-sm font-extrabold text-slate-900 dark:text-white mt-1">Prof. SELVI M</p>
+                <p class="text-slate-600 dark:text-slate-400 text-[11px] mt-0.5">Associate Professor Grade 2 • Emp ID: <span class="text-indigo-700 dark:text-indigo-300 font-bold">16106</span></p>
                 <p class="text-slate-500 text-[10px] mt-0.5">School of Computer Science and Engineering (SCOPE)</p>
               </div>
             </div>
@@ -185,52 +210,52 @@
         badge: "Institutional Governance",
         notes: "Present the course, semester, guide details, and registration approval status.",
         html: `
-          <div class="glass-card rounded-3xl p-8 sm:p-10 slide-enter border border-indigo-500/20 space-y-6">
-            <div class="border-b border-slate-800 pb-4 flex items-center justify-between">
+          <div class="glass-card rounded-3xl p-8 sm:p-10 slide-enter space-y-6">
+            <div class="border-b border-slate-200 dark:border-slate-800 pb-4 flex items-center justify-between">
               <div>
-                <span class="text-xs font-bold text-indigo-400 uppercase tracking-wider">Institutional Framework</span>
-                <h3 class="text-2xl font-extrabold text-white mt-1">Academic Registration & Project Profile</h3>
+                <span class="text-xs font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-wider">Institutional Framework</span>
+                <h3 class="text-2xl font-extrabold text-slate-900 dark:text-white mt-1">Academic Registration & Project Profile</h3>
               </div>
-              <span class="px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs font-bold flex items-center gap-1.5">
-                <span class="w-2 h-2 rounded-full bg-emerald-400"></span> Registered & Approved
+              <span class="px-3 py-1 rounded-full bg-emerald-100 dark:bg-emerald-500/10 border border-emerald-300 dark:border-emerald-500/30 text-emerald-800 dark:text-emerald-300 text-xs font-bold flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-emerald-500"></span> Registered & Approved
               </span>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-xs">
-              <div class="p-4 rounded-2xl bg-slate-900/80 border border-slate-800">
+              <div class="p-4 rounded-2xl bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800">
                 <span class="text-slate-500 font-semibold block text-[10px] uppercase">Course Code & Name</span>
-                <p class="text-sm font-bold text-white mt-1">BCSE497J - Project - I</p>
-                <p class="text-slate-400 text-[11px] mt-0.5">Regular • 6 Months</p>
+                <p class="text-sm font-bold text-slate-900 dark:text-white mt-1">BCSE497J - Project - I</p>
+                <p class="text-slate-500 dark:text-slate-400 text-[11px] mt-0.5">Regular • 6 Months</p>
               </div>
 
-              <div class="p-4 rounded-2xl bg-slate-900/80 border border-slate-800">
+              <div class="p-4 rounded-2xl bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800">
                 <span class="text-slate-500 font-semibold block text-[10px] uppercase">Academic Semester</span>
-                <p class="text-sm font-bold text-white mt-1">Fall Semester 2026-27</p>
-                <p class="text-slate-400 text-[11px] mt-0.5">Project Option: General</p>
+                <p class="text-sm font-bold text-slate-900 dark:text-white mt-1">Fall Semester 2026-27</p>
+                <p class="text-slate-500 dark:text-slate-400 text-[11px] mt-0.5">Project Option: General</p>
               </div>
 
-              <div class="p-4 rounded-2xl bg-slate-900/80 border border-slate-800">
+              <div class="p-4 rounded-2xl bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800">
                 <span class="text-slate-500 font-semibold block text-[10px] uppercase">Academic School</span>
-                <p class="text-sm font-bold text-sky-400 mt-1">SCOPE</p>
-                <p class="text-slate-400 text-[11px] mt-0.5">Computer Science & Engineering</p>
+                <p class="text-sm font-bold text-sky-600 dark:text-sky-400 mt-1">SCOPE</p>
+                <p class="text-slate-500 dark:text-slate-400 text-[11px] mt-0.5">Computer Science & Engineering</p>
               </div>
 
-              <div class="p-4 rounded-2xl bg-slate-900/80 border border-slate-800">
+              <div class="p-4 rounded-2xl bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800">
                 <span class="text-slate-500 font-semibold block text-[10px] uppercase">Candidate Details</span>
-                <p class="text-sm font-bold text-white mt-1">Ashish Anil Sikaria</p>
-                <p class="text-slate-400 font-mono text-[11px] mt-0.5">Reg No: 23BCI0218</p>
+                <p class="text-sm font-bold text-slate-900 dark:text-white mt-1">Ashish Anil Sikaria</p>
+                <p class="text-slate-500 dark:text-slate-400 font-mono text-[11px] mt-0.5">Reg No: 23BCI0218</p>
               </div>
 
-              <div class="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 sm:col-span-2">
+              <div class="p-4 rounded-2xl bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 sm:col-span-2">
                 <span class="text-slate-500 font-semibold block text-[10px] uppercase">Faculty Guide Details</span>
-                <p class="text-sm font-bold text-emerald-400 mt-1">Prof. SELVI M</p>
-                <p class="text-slate-300 text-[11px] mt-0.5">Associate Professor Grade 2 • Employee ID: 16106 • SCOPE</p>
+                <p class="text-sm font-bold text-emerald-700 dark:text-emerald-400 mt-1">Prof. SELVI M</p>
+                <p class="text-slate-600 dark:text-slate-300 text-[11px] mt-0.5">Associate Professor Grade 2 • Employee ID: 16106 • SCOPE</p>
               </div>
             </div>
 
-            <div class="p-4 rounded-2xl bg-slate-900/50 border border-slate-800 text-xs text-slate-300 flex items-center justify-between">
+            <div class="p-4 rounded-2xl bg-emerald-50 dark:bg-slate-900/50 border border-emerald-200 dark:border-slate-800 text-xs text-slate-700 dark:text-slate-300 flex items-center justify-between">
               <span><strong>Scope</strong>: Web3 Smart Contracts, Cryptographic Storage & Healthcare Privacy Protocols</span>
-              <span class="text-emerald-400 font-semibold">Status: Guide Approved ✅</span>
+              <span class="text-emerald-700 dark:text-emerald-400 font-semibold">Status: Guide Approved ✅</span>
             </div>
           </div>
         `
@@ -242,44 +267,44 @@
         badge: "Industry Problem Statement",
         notes: "Emphasize real-world metrics: 133M+ breached health records and lack of patient sovereignty.",
         html: `
-          <div class="glass-card rounded-3xl p-8 sm:p-10 slide-enter border border-rose-500/20 space-y-6">
-            <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+          <div class="glass-card rounded-3xl p-8 sm:p-10 slide-enter space-y-6">
+            <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-4">
               <div>
-                <span class="text-xs font-bold text-rose-400 uppercase tracking-wider">The Problem</span>
-                <h3 class="text-2xl font-extrabold text-white mt-1">Fundamental Flaws in Legacy Hospital Systems</h3>
+                <span class="text-xs font-bold text-rose-600 dark:text-rose-400 uppercase tracking-wider">The Problem</span>
+                <h3 class="text-2xl font-extrabold text-slate-900 dark:text-white mt-1">Fundamental Flaws in Legacy Hospital Systems</h3>
               </div>
-              <span class="px-3 py-1 rounded-full bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs font-bold">133M+ Breached Records</span>
+              <span class="px-3 py-1 rounded-full bg-rose-100 dark:bg-rose-500/10 border border-rose-300 dark:border-rose-500/30 text-rose-800 dark:text-rose-300 text-xs font-bold">133M+ Breached Records</span>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-              <div class="p-5 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-2">
-                <div class="w-8 h-8 rounded-lg bg-rose-500/20 text-rose-400 flex items-center justify-center font-bold text-sm">1</div>
-                <h4 class="text-base font-bold text-white">Centralized Honeypots</h4>
-                <p class="text-xs text-slate-400 leading-relaxed">
+              <div class="p-5 rounded-2xl bg-rose-50/50 dark:bg-slate-900/80 border border-rose-200 dark:border-slate-800 space-y-2">
+                <div class="w-8 h-8 rounded-lg bg-rose-200 dark:bg-rose-500/20 text-rose-700 dark:text-rose-400 flex items-center justify-center font-bold text-sm">1</div>
+                <h4 class="text-base font-bold text-slate-900 dark:text-white">Centralized Honeypots</h4>
+                <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
                   Hospital databases store unencrypted health files in centralized silos, making them prime targets for ransomware and massive data leaks.
                 </p>
               </div>
 
-              <div class="p-5 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-2">
-                <div class="w-8 h-8 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold text-sm">2</div>
-                <h4 class="text-base font-bold text-white">Zero Patient Sovereignty</h4>
-                <p class="text-xs text-slate-400 leading-relaxed">
+              <div class="p-5 rounded-2xl bg-amber-50/50 dark:bg-slate-900/80 border border-amber-200 dark:border-slate-800 space-y-2">
+                <div class="w-8 h-8 rounded-lg bg-amber-200 dark:bg-amber-500/20 text-amber-700 dark:text-amber-400 flex items-center justify-center font-bold text-sm">2</div>
+                <h4 class="text-base font-bold text-slate-900 dark:text-white">Zero Patient Sovereignty</h4>
+                <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
                   Patients have zero visibility into who accesses, monetizes, or shares their diagnostic records among insurance brokers.
                 </p>
               </div>
 
-              <div class="p-5 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-2">
-                <div class="w-8 h-8 rounded-lg bg-sky-500/20 text-sky-400 flex items-center justify-center font-bold text-sm">3</div>
-                <h4 class="text-base font-bold text-white">Siloed Interoperability</h4>
-                <p class="text-xs text-slate-400 leading-relaxed">
+              <div class="p-5 rounded-2xl bg-sky-50/50 dark:bg-slate-900/80 border border-sky-200 dark:border-slate-800 space-y-2">
+                <div class="w-8 h-8 rounded-lg bg-sky-200 dark:bg-sky-500/20 text-sky-700 dark:text-sky-400 flex items-center justify-center font-bold text-sm">3</div>
+                <h4 class="text-base font-bold text-slate-900 dark:text-white">Siloed Interoperability</h4>
+                <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
                   Incompatible hospital software leads to delayed treatments, duplicate blood tests, and life-threatening information blind spots in emergencies.
                 </p>
               </div>
 
-              <div class="p-5 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-2">
-                <div class="w-8 h-8 rounded-lg bg-purple-500/20 text-purple-400 flex items-center justify-center font-bold text-sm">4</div>
-                <h4 class="text-base font-bold text-white">Lack of Tamper-Evident Logs</h4>
-                <p class="text-xs text-slate-400 leading-relaxed">
+              <div class="p-5 rounded-2xl bg-purple-50/50 dark:bg-slate-900/80 border border-purple-200 dark:border-slate-800 space-y-2">
+                <div class="w-8 h-8 rounded-lg bg-purple-200 dark:bg-purple-500/20 text-purple-700 dark:text-purple-400 flex items-center justify-center font-bold text-sm">4</div>
+                <h4 class="text-base font-bold text-slate-900 dark:text-white">Lack of Tamper-Evident Logs</h4>
+                <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
                   Legacy systems lack cryptographic non-repudiation, allowing retroactive record falsification and untraceable access logs.
                 </p>
               </div>
@@ -294,160 +319,114 @@
         badge: "Architectural Innovation",
         notes: "Explain the hybrid model: smart contract access rules on-chain, encrypted file storage on IPFS, seamless REST gateway for UX.",
         html: `
-          <div class="glass-card rounded-3xl p-8 sm:p-10 slide-enter border border-sky-500/20 space-y-6">
-            <div class="border-b border-slate-800 pb-4">
-              <span class="text-xs font-bold text-sky-400 uppercase tracking-wider">The Innovation</span>
-              <h3 class="text-2xl font-extrabold text-white mt-1">Zero-Trust Hybrid Healthcare Architecture</h3>
+          <div class="glass-card rounded-3xl p-8 sm:p-10 slide-enter space-y-6">
+            <div class="border-b border-slate-200 dark:border-slate-800 pb-4">
+              <span class="text-xs font-bold text-sky-600 dark:text-sky-400 uppercase tracking-wider">The Innovation</span>
+              <h3 class="text-2xl font-extrabold text-slate-900 dark:text-white mt-1">Zero-Trust Hybrid Healthcare Architecture</h3>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-              <div class="p-5 rounded-2xl bg-slate-900/80 border border-sky-500/30 space-y-3">
-                <div class="w-10 h-10 rounded-xl bg-sky-500/20 text-sky-400 flex items-center justify-center text-xl">🔐</div>
-                <h4 class="text-base font-bold text-white">Client AES-256-GCM</h4>
-                <p class="text-xs text-slate-400 leading-relaxed">
+              <div class="p-5 rounded-2xl bg-sky-50/60 dark:bg-slate-900/80 border border-sky-200 dark:border-sky-500/30 space-y-3">
+                <div class="w-10 h-10 rounded-xl bg-sky-200 dark:bg-sky-500/20 text-sky-700 dark:text-sky-400 flex items-center justify-center text-xl">🔐</div>
+                <h4 class="text-base font-bold text-slate-900 dark:text-white">Client AES-256-GCM</h4>
+                <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
                   Medical scans and reports are encrypted with distinct 256-bit symmetric keys, 12-byte IVs, and 16-byte authentication tags before transmission.
                 </p>
               </div>
 
-              <div class="p-5 rounded-2xl bg-slate-900/80 border border-indigo-500/30 space-y-3">
-                <div class="w-10 h-10 rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center text-xl">🌐</div>
-                <h4 class="text-base font-bold text-white">IPFS Decentralization</h4>
-                <p class="text-xs text-slate-400 leading-relaxed">
+              <div class="p-5 rounded-2xl bg-indigo-50/60 dark:bg-slate-900/80 border border-indigo-200 dark:border-indigo-500/30 space-y-3">
+                <div class="w-10 h-10 rounded-xl bg-indigo-200 dark:bg-indigo-500/20 text-indigo-700 dark:text-indigo-400 flex items-center justify-center text-xl">🌐</div>
+                <h4 class="text-base font-bold text-slate-900 dark:text-white">IPFS Decentralization</h4>
+                <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
                   Encrypted ciphertexts are pinned across decentralized IPFS nodes, generating immutable cryptographic Content Identifiers (CIDs).
                 </p>
               </div>
 
-              <div class="p-5 rounded-2xl bg-slate-900/80 border border-emerald-500/30 space-y-3">
-                <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-xl">📜</div>
-                <h4 class="text-base font-bold text-white">Smart Contract RBAC</h4>
-                <p class="text-xs text-slate-400 leading-relaxed">
-                  Solidity smart contracts enforce isolated patient access matrices (<code class="text-[11px] text-emerald-300">doctorPermissions[p][d]</code>) with indexed audit events.
+              <div class="p-5 rounded-2xl bg-emerald-50/60 dark:bg-slate-900/80 border border-emerald-200 dark:border-emerald-500/30 space-y-3">
+                <div class="w-10 h-10 rounded-xl bg-emerald-200 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-400 flex items-center justify-center text-xl">📜</div>
+                <h4 class="text-base font-bold text-slate-900 dark:text-white">Smart Contract RBAC</h4>
+                <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                  Solidity smart contracts enforce isolated patient access matrices (<code class="text-[11px] text-emerald-700 dark:text-emerald-300">doctorPermissions[p][d]</code>) with indexed audit events.
                 </p>
               </div>
             </div>
 
-            <div class="p-4 rounded-2xl bg-gradient-to-r from-sky-950/50 to-indigo-950/50 border border-sky-500/20 flex items-center justify-between text-xs">
-              <span class="text-slate-300">✅ <strong>HIPAA Security Rule §164.312 Compliant</strong> (TLS 1.3 + AES-256 + Access Controls)</span>
-              <span class="text-slate-300">✅ <strong>GDPR Article 17 "Crypto-Shredding" Ready</strong></span>
+            <div class="p-4 rounded-2xl bg-sky-50 dark:bg-gradient-to-r dark:from-sky-950/50 dark:to-indigo-950/50 border border-sky-200 dark:border-sky-500/20 flex items-center justify-between text-xs">
+              <span class="text-slate-700 dark:text-slate-300">✅ <strong>HIPAA Security Rule §164.312 Compliant</strong> (TLS 1.3 + AES-256 + Access Controls)</span>
+              <span class="text-slate-700 dark:text-slate-300">✅ <strong>GDPR Article 17 "Crypto-Shredding" Ready</strong></span>
             </div>
           </div>
         `
       },
       {
         id: 5,
-        title: "Cryptographic Data & Permission Flow",
-        subtitle: "How Documents are Encrypted, Pinned, and Authorized",
-        badge: "Technical Deep-Dive",
-        notes: "Walk through the sequence: from patient file upload to AES encryption, IPFS pinning, and smart contract access authorization.",
-        html: `
-          <div class="glass-card rounded-3xl p-8 sm:p-10 slide-enter border border-indigo-500/20 space-y-6">
-            <div class="border-b border-slate-800 pb-4">
-              <span class="text-xs font-bold text-indigo-400 uppercase tracking-wider">Protocol Pipeline</span>
-              <h3 class="text-2xl font-extrabold text-white mt-1">End-to-End Cryptographic Lifecycle</h3>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-3 text-left">
-              <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800">
-                <span class="text-[10px] font-mono text-sky-400 font-bold">STEP 01</span>
-                <h5 class="text-xs font-bold text-white mt-1 mb-1">Local Encryption</h5>
-                <p class="text-[11px] text-slate-400">File buffer encrypted with unique AES-256-GCM symmetric key and random IV.</p>
-              </div>
-              <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800">
-                <span class="text-[10px] font-mono text-indigo-400 font-bold">STEP 02</span>
-                <h5 class="text-xs font-bold text-white mt-1 mb-1">IPFS Pinning</h5>
-                <p class="text-[11px] text-slate-400">Encrypted binary is pinned to IPFS gateway, returning SHA-256 content CID.</p>
-              </div>
-              <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800">
-                <span class="text-[10px] font-mono text-emerald-400 font-bold">STEP 03</span>
-                <h5 class="text-xs font-bold text-white mt-1 mb-1">On-Chain Anchor</h5>
-                <p class="text-[11px] text-slate-400">Caller invokes <code class="text-[10px] text-emerald-300">addRecord()</code> to store immutable pointer and emit audit event.</p>
-              </div>
-              <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800">
-                <span class="text-[10px] font-mono text-purple-400 font-bold">STEP 04</span>
-                <h5 class="text-xs font-bold text-white mt-1 mb-1">Selective Sharing</h5>
-                <p class="text-[11px] text-slate-400">Patient grants time-bounded or revocable access to verified doctor wallet.</p>
-              </div>
-            </div>
-
-            <div class="p-4 bg-slate-950 rounded-2xl border border-slate-800 font-mono text-[11px] text-slate-300 space-y-1">
-              <p class="text-slate-500">// Smart Contract Permission Check (MedicalRecord.sol)</p>
-              <p><span class="text-purple-400">function</span> <span class="text-sky-400">getPatientRecords</span>(<span class="text-emerald-400">address</span> patient) <span class="text-purple-400">external view returns</span> (Record[] <span class="text-purple-400">memory</span>) {</p>
-              <p class="pl-4"><span class="text-purple-400">require</span>(msg.sender == patient || (doctors[msg.sender].isVerified && doctorPermissions[patient][msg.sender]), <span class="text-amber-300">"Unauthorized: Access denied"</span>);</p>
-              <p class="pl-4"><span class="text-purple-400">return</span> records[patient];</p>
-              <p>}</p>
-            </div>
-          </div>
-        `
-      },
-      {
-        id: 6,
         title: "UN Sustainable Development Goals (SDGs)",
         subtitle: "Global Impact & Healthcare Accessibility Alignment",
         badge: "United Nations 2030 Agenda",
         notes: "Key highlight for academic & institutional evaluations: Mapping CareChain to UN SDGs 3, 9, 10, and 16 with concrete targets.",
         html: `
-          <div class="glass-card rounded-3xl p-8 sm:p-10 slide-enter border border-emerald-500/20 space-y-6">
-            <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+          <div class="glass-card rounded-3xl p-8 sm:p-10 slide-enter space-y-6">
+            <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-4">
               <div>
-                <span class="text-xs font-bold text-emerald-400 uppercase tracking-wider">Global Sustainability Impact</span>
-                <h3 class="text-2xl font-extrabold text-white mt-1">Alignment with UN Sustainable Development Goals</h3>
+                <span class="text-xs font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">Global Sustainability Impact</span>
+                <h3 class="text-2xl font-extrabold text-slate-900 dark:text-white mt-1">Alignment with UN Sustainable Development Goals</h3>
               </div>
-              <span class="px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs font-bold">4 Major SDGs Targeted</span>
+              <span class="px-3 py-1 rounded-full bg-emerald-100 dark:bg-emerald-500/10 border border-emerald-300 dark:border-emerald-500/30 text-emerald-800 dark:text-emerald-300 text-xs font-bold">4 Major SDGs Targeted</span>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
               <!-- SDG 3 -->
-              <div class="p-5 rounded-2xl bg-gradient-to-br from-emerald-950/60 to-slate-900 border border-emerald-500/30 space-y-2">
+              <div class="p-5 rounded-2xl bg-emerald-50 dark:bg-gradient-to-br dark:from-emerald-950/60 dark:to-slate-900 border border-emerald-200 dark:border-emerald-500/30 space-y-2">
                 <div class="flex items-center justify-between">
-                  <span class="font-extrabold text-sm text-emerald-400 flex items-center gap-1.5">
+                  <span class="font-extrabold text-sm text-emerald-800 dark:text-emerald-400 flex items-center gap-1.5">
                     <span class="w-6 h-6 rounded bg-emerald-600 text-white flex items-center justify-center font-bold text-[10px]">3</span>
                     Good Health & Well-Being
                   </span>
-                  <span class="text-[10px] font-mono bg-emerald-900/60 text-emerald-300 px-2 py-0.5 rounded">Target 3.8</span>
+                  <span class="text-[10px] font-mono bg-emerald-200 dark:bg-emerald-900/60 text-emerald-900 dark:text-emerald-300 px-2 py-0.5 rounded">Target 3.8</span>
                 </div>
-                <p class="text-slate-300 leading-relaxed text-[11px]">
+                <p class="text-slate-600 dark:text-slate-300 leading-relaxed text-[11px]">
                   Enables universal portable access to verifiable electronic medical records across regional facilities and cross-border consultations, reducing diagnostic errors and medical misadventures.
                 </p>
               </div>
 
               <!-- SDG 9 -->
-              <div class="p-5 rounded-2xl bg-gradient-to-br from-orange-950/60 to-slate-900 border border-orange-500/30 space-y-2">
+              <div class="p-5 rounded-2xl bg-amber-50 dark:bg-gradient-to-br dark:from-orange-950/60 dark:to-slate-900 border border-amber-200 dark:border-orange-500/30 space-y-2">
                 <div class="flex items-center justify-between">
-                  <span class="font-extrabold text-sm text-orange-400 flex items-center gap-1.5">
-                    <span class="w-6 h-6 rounded bg-orange-600 text-white flex items-center justify-center font-bold text-[10px]">9</span>
+                  <span class="font-extrabold text-sm text-amber-800 dark:text-orange-400 flex items-center gap-1.5">
+                    <span class="w-6 h-6 rounded bg-amber-600 text-white flex items-center justify-center font-bold text-[10px]">9</span>
                     Industry, Innovation & Infrastructure
                   </span>
-                  <span class="text-[10px] font-mono bg-orange-900/60 text-orange-300 px-2 py-0.5 rounded">Target 9.5</span>
+                  <span class="text-[10px] font-mono bg-amber-200 dark:bg-orange-900/60 text-amber-900 dark:text-orange-300 px-2 py-0.5 rounded">Target 9.5</span>
                 </div>
-                <p class="text-slate-300 leading-relaxed text-[11px]">
+                <p class="text-slate-600 dark:text-slate-300 leading-relaxed text-[11px]">
                   Upgrades vulnerable, fragmented legacy hospital databases into fault-tolerant, decentralized healthtech infrastructure leveraging smart contracts and IPFS pinning.
                 </p>
               </div>
 
               <!-- SDG 10 -->
-              <div class="p-5 rounded-2xl bg-gradient-to-br from-pink-950/60 to-slate-900 border border-pink-500/30 space-y-2">
+              <div class="p-5 rounded-2xl bg-rose-50 dark:bg-gradient-to-br dark:from-pink-950/60 dark:to-slate-900 border border-rose-200 dark:border-pink-500/30 space-y-2">
                 <div class="flex items-center justify-between">
-                  <span class="font-extrabold text-sm text-pink-400 flex items-center gap-1.5">
-                    <span class="w-6 h-6 rounded bg-pink-600 text-white flex items-center justify-center font-bold text-[10px]">10</span>
+                  <span class="font-extrabold text-sm text-rose-800 dark:text-pink-400 flex items-center gap-1.5">
+                    <span class="w-6 h-6 rounded bg-rose-600 text-white flex items-center justify-center font-bold text-[10px]">10</span>
                     Reduced Inequalities
                   </span>
-                  <span class="text-[10px] font-mono bg-pink-900/60 text-pink-300 px-2 py-0.5 rounded">Target 10.2</span>
+                  <span class="text-[10px] font-mono bg-rose-200 dark:bg-pink-900/60 text-rose-900 dark:text-pink-300 px-2 py-0.5 rounded">Target 10.2</span>
                 </div>
-                <p class="text-slate-300 leading-relaxed text-[11px]">
+                <p class="text-slate-600 dark:text-slate-300 leading-relaxed text-[11px]">
                   Democratizes patient ownership over health records regardless of socioeconomic class, ensuring data cannot be locked or withheld by proprietary institutional gatekeepers.
                 </p>
               </div>
 
               <!-- SDG 16 -->
-              <div class="p-5 rounded-2xl bg-gradient-to-br from-blue-950/60 to-slate-900 border border-blue-500/30 space-y-2">
+              <div class="p-5 rounded-2xl bg-indigo-50 dark:bg-gradient-to-br dark:from-blue-950/60 dark:to-slate-900 border border-indigo-200 dark:border-blue-500/30 space-y-2">
                 <div class="flex items-center justify-between">
-                  <span class="font-extrabold text-sm text-blue-400 flex items-center gap-1.5">
-                    <span class="w-6 h-6 rounded bg-blue-600 text-white flex items-center justify-center font-bold text-[10px]">16</span>
+                  <span class="font-extrabold text-sm text-indigo-800 dark:text-blue-400 flex items-center gap-1.5">
+                    <span class="w-6 h-6 rounded bg-indigo-600 text-white flex items-center justify-center font-bold text-[10px]">16</span>
                     Peace, Justice & Strong Institutions
                   </span>
-                  <span class="text-[10px] font-mono bg-blue-900/60 text-blue-300 px-2 py-0.5 rounded">Target 16.6</span>
+                  <span class="text-[10px] font-mono bg-indigo-200 dark:bg-blue-900/60 text-indigo-900 dark:text-blue-300 px-2 py-0.5 rounded">Target 16.6</span>
                 </div>
-                <p class="text-slate-300 leading-relaxed text-[11px]">
+                <p class="text-slate-600 dark:text-slate-300 leading-relaxed text-[11px]">
                   Establishes transparent, immutable on-chain audit trails for doctor licensing and diagnostic issuance, mitigating healthcare malpractice fraud and unauthorized data extraction.
                 </p>
               </div>
@@ -456,59 +435,59 @@
         `
       },
       {
-        id: 7,
+        id: 6,
         title: "Technology Readiness Level (TRL) Analysis",
         subtitle: "From Prototype to Commercial Deployment (NASA / EU Horizon Framework)",
         badge: "Technical Maturity Scorecard",
-        notes: "Clearly position the project at TRL 6: Working prototype verified with end-to-end integration, smart contracts, backend gateway, and frontend portals in a relevant simulated environment.",
+        notes: "Clearly position the project at TRL 6: Working prototype verified with end-to-end integration.",
         html: `
-          <div class="glass-card rounded-3xl p-8 sm:p-10 slide-enter border border-purple-500/20 space-y-6">
-            <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+          <div class="glass-card rounded-3xl p-8 sm:p-10 slide-enter space-y-6">
+            <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-4">
               <div>
-                <span class="text-xs font-bold text-purple-400 uppercase tracking-wider">Maturity Evaluation</span>
-                <h3 class="text-2xl font-extrabold text-white mt-1">Current State: TRL 6 (Working Prototype Demonstrated)</h3>
+                <span class="text-xs font-bold text-purple-600 dark:text-purple-400 uppercase tracking-wider">Maturity Evaluation</span>
+                <h3 class="text-2xl font-extrabold text-slate-900 dark:text-white mt-1">Current State: TRL 6 (Working Prototype Demonstrated)</h3>
               </div>
-              <span class="px-3.5 py-1 rounded-full bg-purple-500/20 border border-purple-500/40 text-purple-300 text-xs font-extrabold">★ TRL 6 VERIFIED ★</span>
+              <span class="px-3.5 py-1 rounded-full bg-purple-100 dark:bg-purple-500/20 border border-purple-300 dark:border-purple-500/40 text-purple-800 dark:text-purple-300 text-xs font-extrabold">★ TRL 6 VERIFIED ★</span>
             </div>
 
             <!-- TRL Stage Progression Bar -->
             <div class="grid grid-cols-4 gap-2 text-center text-xs font-bold">
-              <div class="p-3 rounded-xl bg-slate-900 text-slate-400 border border-slate-800">
-                <span class="text-[10px] text-slate-500 block">TRL 1 - 3</span>
+              <div class="p-3 rounded-xl bg-white dark:bg-slate-900 text-slate-500 border border-slate-200 dark:border-slate-800">
+                <span class="text-[10px] text-slate-400 block">TRL 1 - 3</span>
                 Research & Concepts
               </div>
-              <div class="p-3 rounded-xl bg-slate-900 text-slate-400 border border-slate-800">
-                <span class="text-[10px] text-slate-500 block">TRL 4 - 5</span>
+              <div class="p-3 rounded-xl bg-white dark:bg-slate-900 text-slate-500 border border-slate-200 dark:border-slate-800">
+                <span class="text-[10px] text-slate-400 block">TRL 4 - 5</span>
                 Lab Component Testing
               </div>
-              <div class="p-3 rounded-xl bg-purple-900/60 text-purple-200 border-2 border-purple-500 shadow-lg shadow-purple-500/20">
-                <span class="text-[10px] text-purple-400 block font-mono">CURRENT STAGE</span>
+              <div class="p-3 rounded-xl bg-purple-50 dark:bg-purple-900/60 text-purple-900 dark:text-purple-200 border-2 border-purple-500 shadow-sm">
+                <span class="text-[10px] text-purple-600 dark:text-purple-400 block font-mono">CURRENT STAGE</span>
                 TRL 6: Prototype Demo
               </div>
-              <div class="p-3 rounded-xl bg-slate-900 text-slate-400 border border-slate-800">
-                <span class="text-[10px] text-slate-500 block">TRL 7 - 9</span>
+              <div class="p-3 rounded-xl bg-white dark:bg-slate-900 text-slate-500 border border-slate-200 dark:border-slate-800">
+                <span class="text-[10px] text-slate-400 block">TRL 7 - 9</span>
                 Clinical Deployment
               </div>
             </div>
 
             <!-- Verification Evidence Matrix -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-              <div class="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-2">
-                <h4 class="font-bold text-white text-sm flex items-center gap-1.5 text-emerald-400">
+              <div class="p-4 rounded-2xl bg-emerald-50/50 dark:bg-slate-900/80 border border-emerald-200 dark:border-slate-800 space-y-2">
+                <h4 class="font-bold text-emerald-800 dark:text-emerald-400 text-sm flex items-center gap-1.5">
                   <span>✓</span> TRL 6 Verified Deliverables
                 </h4>
-                <ul class="space-y-1 text-slate-300 text-[11px] list-disc list-inside">
-                  <li><strong>Smart Contracts</strong>: <code class="text-sky-300">MedicalRecord.sol</code> deployed with 100% automated test coverage (11/11 Hardhat tests passing).</li>
+                <ul class="space-y-1 text-slate-600 dark:text-slate-300 text-[11px] list-disc list-inside">
+                  <li><strong>Smart Contracts</strong>: <code class="text-sky-700 dark:text-sky-300">MedicalRecord.sol</code> deployed with 100% automated test coverage (11/11 Hardhat tests passing).</li>
                   <li><strong>Cryptographic Gateway</strong>: AES-256-GCM symmetric buffer encryption & IPFS pinning via Pinata live.</li>
                   <li><strong>Role-Based Portals</strong>: Functional web applications for Patients, Doctors, and Hospital Governance with MetaMask.</li>
                 </ul>
               </div>
 
-              <div class="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-2">
-                <h4 class="font-bold text-white text-sm flex items-center gap-1.5 text-sky-400">
+              <div class="p-4 rounded-2xl bg-sky-50/50 dark:bg-slate-900/80 border border-sky-200 dark:border-slate-800 space-y-2">
+                <h4 class="font-bold text-sky-800 dark:text-sky-400 text-sm flex items-center gap-1.5">
                   <span>➔</span> Roadmap to TRL 9 Commercial Deployment
                 </h4>
-                <ul class="space-y-1 text-slate-300 text-[11px] list-disc list-inside">
+                <ul class="space-y-1 text-slate-600 dark:text-slate-300 text-[11px] list-disc list-inside">
                   <li><strong>TRL 7</strong>: Multi-hospital sandbox integration with HL7 FHIR standards and ERC-4337 Account Abstraction.</li>
                   <li><strong>TRL 8</strong>: Formal CertiK/OpenZeppelin smart contract security audits and HIPAA certification.</li>
                   <li><strong>TRL 9</strong>: Mainnet production release across partner hospital consortiums.</li>
@@ -519,47 +498,47 @@
         `
       },
       {
-        id: 8,
+        id: 7,
         title: "Cutting-Edge Protocol Innovations",
         subtitle: "Key Technical Differentiators that Move Beyond Generic Demos",
         badge: "Advanced Features",
         notes: "Highlight the novel features: Break-Glass emergency access, ZK-Proofs for insurance/trials, and WebAuthn Passkeys.",
         html: `
-          <div class="glass-card rounded-3xl p-8 sm:p-10 slide-enter border border-sky-500/20 space-y-6">
-            <div class="border-b border-slate-800 pb-4">
-              <span class="text-xs font-bold text-sky-400 uppercase tracking-wider">Next-Generation Capabilities</span>
-              <h3 class="text-2xl font-extrabold text-white mt-1">High-Impact Healthcare Innovations</h3>
+          <div class="glass-card rounded-3xl p-8 sm:p-10 slide-enter space-y-6">
+            <div class="border-b border-slate-200 dark:border-slate-800 pb-4">
+              <span class="text-xs font-bold text-sky-600 dark:text-sky-400 uppercase tracking-wider">Next-Generation Capabilities</span>
+              <h3 class="text-2xl font-extrabold text-slate-900 dark:text-white mt-1">High-Impact Healthcare Innovations</h3>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-              <div class="p-5 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-2">
+              <div class="p-5 rounded-2xl bg-rose-50/50 dark:bg-slate-900/80 border border-rose-200 dark:border-slate-800 space-y-2">
                 <span class="text-base">🚨</span>
-                <h4 class="text-sm font-bold text-white">"Break-Glass" Emergency Protocol</h4>
-                <p class="text-slate-400 leading-relaxed text-[11px]">
+                <h4 class="text-sm font-bold text-slate-900 dark:text-white">"Break-Glass" Emergency Protocol</h4>
+                <p class="text-slate-600 dark:text-slate-400 leading-relaxed text-[11px]">
                   Addresses the unconscious ER patient challenge: Verified trauma physicians can trigger a time-delayed cryptographic challenge or multi-guardian approval to decrypt life-saving vitals, backed by on-chain audit penalties.
                 </p>
               </div>
 
-              <div class="p-5 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-2">
+              <div class="p-5 rounded-2xl bg-purple-50/50 dark:bg-slate-900/80 border border-purple-200 dark:border-slate-800 space-y-2">
                 <span class="text-base">🛡️</span>
-                <h4 class="text-sm font-bold text-white">Zero-Knowledge (ZK) Health Claims</h4>
-                <p class="text-slate-400 leading-relaxed text-[11px]">
+                <h4 class="text-sm font-bold text-slate-900 dark:text-white">Zero-Knowledge (ZK) Health Claims</h4>
+                <p class="text-slate-600 dark:text-slate-400 leading-relaxed text-[11px]">
                   zk-SNARK circuits allowing patients to prove eligibility for clinical trials or insurance criteria (e.g. "HbA1c &lt; 6.5%") without ever revealing raw medical files or identity.
                 </p>
               </div>
 
-              <div class="p-5 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-2">
+              <div class="p-5 rounded-2xl bg-sky-50/50 dark:bg-slate-900/80 border border-sky-200 dark:border-slate-800 space-y-2">
                 <span class="text-base">🔑</span>
-                <h4 class="text-sm font-bold text-white">Gasless Account Abstraction (ERC-4337)</h4>
-                <p class="text-slate-400 leading-relaxed text-[11px]">
+                <h4 class="text-sm font-bold text-slate-900 dark:text-white">Gasless Account Abstraction (ERC-4337)</h4>
+                <p class="text-slate-600 dark:text-slate-400 leading-relaxed text-[11px]">
                   Replaces complex seed phrases and gas tokens with WebAuthn Passkeys (TouchID / FaceID), sponsored by hospital Paymaster relayers.
                 </p>
               </div>
 
-              <div class="p-5 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-2">
+              <div class="p-5 rounded-2xl bg-emerald-50/50 dark:bg-slate-900/80 border border-emerald-200 dark:border-slate-800 space-y-2">
                 <span class="text-base">🎖️</span>
-                <h4 class="text-sm font-bold text-white">Soulbound Tokens (SBTs - ERC-5192)</h4>
-                <p class="text-slate-400 leading-relaxed text-[11px]">
+                <h4 class="text-sm font-bold text-slate-900 dark:text-white">Soulbound Tokens (SBTs - ERC-5192)</h4>
+                <p class="text-slate-600 dark:text-slate-400 leading-relaxed text-[11px]">
                   Non-transferable medical licenses minted by accredited State Medical Boards. If a license is suspended, contract permissions are instantaneously terminated.
                 </p>
               </div>
@@ -568,41 +547,86 @@
         `
       },
       {
-        id: 9,
+        id: 8,
         title: "Stakeholder Value & Ecosystem Impact",
         subtitle: "Multi-Sided Healthcare Economic Proposition",
         badge: "Business Model & Adoption",
         notes: "Summarize value for Patients (sovereignty), Doctors (liability reduction), Researchers (privacy pools), and Insurers (fraud reduction).",
         html: `
-          <div class="glass-card rounded-3xl p-8 sm:p-10 slide-enter border border-slate-700/80 space-y-6">
-            <div class="border-b border-slate-800 pb-4">
-              <span class="text-xs font-bold text-sky-400 uppercase tracking-wider">Value Creation</span>
-              <h3 class="text-2xl font-extrabold text-white mt-1">Transforming the Healthcare Data Economy</h3>
+          <div class="glass-card rounded-3xl p-8 sm:p-10 slide-enter space-y-6">
+            <div class="border-b border-slate-200 dark:border-slate-800 pb-4">
+              <span class="text-xs font-bold text-sky-600 dark:text-sky-400 uppercase tracking-wider">Value Creation</span>
+              <h3 class="text-2xl font-extrabold text-slate-900 dark:text-white mt-1">Transforming the Healthcare Data Economy</h3>
             </div>
 
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs">
-              <div class="p-4 rounded-2xl bg-slate-900/80 border border-sky-500/20 text-center space-y-2">
-                <div class="w-10 h-10 rounded-xl bg-sky-500/20 text-sky-400 mx-auto flex items-center justify-center font-bold">🧑‍💼</div>
-                <h4 class="font-bold text-white">Patients</h4>
-                <p class="text-[11px] text-slate-400">Total data sovereignty, zero corporate exploitation, seamless portability.</p>
+              <div class="p-4 rounded-2xl bg-sky-50/50 dark:bg-slate-900/80 border border-sky-200 dark:border-sky-500/20 text-center space-y-2">
+                <div class="w-10 h-10 rounded-xl bg-sky-200 dark:bg-sky-500/20 text-sky-700 dark:text-sky-400 mx-auto flex items-center justify-center font-bold">🧑‍💼</div>
+                <h4 class="font-bold text-slate-900 dark:text-white">Patients</h4>
+                <p class="text-[11px] text-slate-600 dark:text-slate-400">Total data sovereignty, zero corporate exploitation, seamless portability.</p>
               </div>
 
-              <div class="p-4 rounded-2xl bg-slate-900/80 border border-emerald-500/20 text-center space-y-2">
-                <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 mx-auto flex items-center justify-center font-bold">👨‍⚕️</div>
-                <h4 class="font-bold text-white">Clinicians</h4>
-                <p class="text-[11px] text-slate-400">Instant access to verified medical histories, zero diagnostic redundancy.</p>
+              <div class="p-4 rounded-2xl bg-emerald-50/50 dark:bg-slate-900/80 border border-emerald-200 dark:border-emerald-500/20 text-center space-y-2">
+                <div class="w-10 h-10 rounded-xl bg-emerald-200 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-400 mx-auto flex items-center justify-center font-bold">👨‍⚕️</div>
+                <h4 class="font-bold text-slate-900 dark:text-white">Clinicians</h4>
+                <p class="text-[11px] text-slate-600 dark:text-slate-400">Instant access to verified medical histories, zero diagnostic redundancy.</p>
               </div>
 
-              <div class="p-4 rounded-2xl bg-slate-900/80 border border-purple-500/20 text-center space-y-2">
-                <div class="w-10 h-10 rounded-xl bg-purple-500/20 text-purple-400 mx-auto flex items-center justify-center font-bold">🔬</div>
-                <h4 class="font-bold text-white">Researchers</h4>
-                <p class="text-[11px] text-slate-400">Privacy-preserving Compute-to-Data research pools with patient micro-rewards.</p>
+              <div class="p-4 rounded-2xl bg-purple-50/50 dark:bg-slate-900/80 border border-purple-200 dark:border-purple-500/20 text-center space-y-2">
+                <div class="w-10 h-10 rounded-xl bg-purple-200 dark:bg-purple-500/20 text-purple-700 dark:text-purple-400 mx-auto flex items-center justify-center font-bold">🔬</div>
+                <h4 class="font-bold text-slate-900 dark:text-white">Researchers</h4>
+                <p class="text-[11px] text-slate-600 dark:text-slate-400">Privacy-preserving Compute-to-Data research pools with patient micro-rewards.</p>
               </div>
 
-              <div class="p-4 rounded-2xl bg-slate-900/80 border border-indigo-500/20 text-center space-y-2">
-                <div class="w-10 h-10 rounded-xl bg-indigo-500/20 text-indigo-400 mx-auto flex items-center justify-center font-bold">🏛️</div>
-                <h4 class="font-bold text-white">Insurers</h4>
-                <p class="text-[11px] text-slate-400">Immutable blockchain claims verification, preventing fraudulent billing.</p>
+              <div class="p-4 rounded-2xl bg-amber-50/50 dark:bg-slate-900/80 border border-amber-200 dark:border-indigo-500/20 text-center space-y-2">
+                <div class="w-10 h-10 rounded-xl bg-amber-200 dark:bg-indigo-500/20 text-amber-700 dark:text-indigo-400 mx-auto flex items-center justify-center font-bold">🏛️</div>
+                <h4 class="font-bold text-slate-900 dark:text-white">Insurers</h4>
+                <p class="text-[11px] text-slate-600 dark:text-slate-400">Immutable blockchain claims verification, preventing fraudulent billing.</p>
+              </div>
+            </div>
+          </div>
+        `
+      },
+      {
+        id: 9,
+        title: "Prototype Demonstration & System Modules",
+        subtitle: "Walkthrough of Core Components",
+        badge: "System Showcase",
+        notes: "Present the 4 main modules: Patient Vault, Practitioner Portal, Hospital Governance, and Web3 Layer.",
+        html: `
+          <div class="glass-card rounded-3xl p-8 sm:p-10 slide-enter space-y-6">
+            <div class="border-b border-slate-200 dark:border-slate-800 pb-4">
+              <span class="text-xs font-bold text-sky-600 dark:text-sky-400 uppercase tracking-wider">Functional Modules</span>
+              <h3 class="text-2xl font-extrabold text-slate-900 dark:text-white mt-1">Prototype Demonstration & Features</h3>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+              <div class="p-5 rounded-2xl bg-sky-50/50 dark:bg-slate-900/80 border border-sky-200 dark:border-slate-800 space-y-2">
+                <h4 class="font-bold text-sky-800 dark:text-sky-300 text-sm">Patient Health Vault</h4>
+                <p class="text-slate-600 dark:text-slate-400 leading-relaxed text-[11px]">
+                  Client-side AES-256 encryption, IPFS pinning via Pinata, and toggleable doctor access control matrix.
+                </p>
+              </div>
+
+              <div class="p-5 rounded-2xl bg-emerald-50/50 dark:bg-slate-900/80 border border-emerald-200 dark:border-slate-800 space-y-2">
+                <h4 class="font-bold text-emerald-800 dark:text-emerald-300 text-sm">Practitioner Portal</h4>
+                <p class="text-slate-600 dark:text-slate-400 leading-relaxed text-[11px]">
+                  Authorized patient EHR lookup, verified clinical diagnostic report uploads, and digital prescription issuance.
+                </p>
+              </div>
+
+              <div class="p-5 rounded-2xl bg-purple-50/50 dark:bg-slate-900/80 border border-purple-200 dark:border-slate-800 space-y-2">
+                <h4 class="font-bold text-purple-800 dark:text-purple-300 text-sm">Hospital Governance</h4>
+                <p class="text-slate-600 dark:text-slate-400 leading-relaxed text-[11px]">
+                  Practitioner license verification, smart contract telemetry, and HIPAA audit trail log exports.
+                </p>
+              </div>
+
+              <div class="p-5 rounded-2xl bg-amber-50/50 dark:bg-slate-900/80 border border-amber-200 dark:border-slate-800 space-y-2">
+                <h4 class="font-bold text-amber-800 dark:text-amber-300 text-sm">Web3 Wallet Layer</h4>
+                <p class="text-slate-600 dark:text-slate-400 leading-relaxed text-[11px]">
+                  Direct MetaMask provider integration alongside off-chain fallback simulation modes.
+                </p>
               </div>
             </div>
           </div>
@@ -610,44 +634,44 @@
       },
       {
         id: 10,
-        title: "Conclusion & Project Governance",
+        title: "Conclusion & Academic Defense",
         subtitle: "CareChain: Setting the Standard for Web3 Healthcare",
         badge: "Summary & Governance Links",
         notes: "Conclude presentation with academic credits, student details, guide acknowledgment, and demonstration links.",
         html: `
-          <div class="glass-card rounded-3xl p-8 sm:p-10 text-center space-y-5 slide-enter border border-sky-500/30">
-            <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-sky-500 via-blue-600 to-indigo-600 text-white text-2xl flex items-center justify-center mx-auto shadow-xl shadow-sky-500/25">
+          <div class="glass-card rounded-3xl p-8 sm:p-10 text-center space-y-5 slide-enter">
+            <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-sky-500 to-blue-600 text-white text-2xl flex items-center justify-center mx-auto shadow-md shadow-sky-500/20">
               🩺
             </div>
 
-            <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">
               Ready for the Next Generation of Healthcare
             </h2>
 
             <!-- Academic Footer Box -->
-            <div class="p-4 rounded-2xl bg-slate-900/90 border border-slate-800 max-w-xl mx-auto text-xs text-left space-y-1">
-              <div class="flex justify-between text-slate-400">
-                <span>Student: <strong class="text-white">Ashish Anil Sikaria</strong></span>
-                <span>Reg No: <strong class="text-sky-300 font-mono">23BCI0218</strong></span>
+            <div class="p-4 rounded-2xl bg-sky-50/80 dark:bg-slate-900/90 border border-sky-200 dark:border-slate-800 max-w-xl mx-auto text-xs text-left space-y-1">
+              <div class="flex justify-between text-slate-600 dark:text-slate-400">
+                <span>Student: <strong class="text-slate-900 dark:text-white">Ashish Anil Sikaria</strong></span>
+                <span>Reg No: <strong class="text-sky-700 dark:text-sky-300 font-mono">23BCI0218</strong></span>
               </div>
-              <div class="flex justify-between text-slate-400 pt-1 border-t border-slate-800">
-                <span>Course: <strong class="text-slate-300">BCSE497J (Project - I)</strong></span>
-                <span>Semester: <strong class="text-slate-300">Fall 2026-27</strong></span>
+              <div class="flex justify-between text-slate-600 dark:text-slate-400 pt-1 border-t border-sky-200 dark:border-slate-800">
+                <span>Course: <strong class="text-slate-800 dark:text-slate-300">BCSE497J (Project - I)</strong></span>
+                <span>Semester: <strong class="text-slate-800 dark:text-slate-300">Fall 2026-27</strong></span>
               </div>
-              <div class="flex justify-between text-slate-400 pt-1 border-t border-slate-800">
-                <span>Guide: <strong class="text-emerald-400">Prof. SELVI M</strong> (Emp ID: 16106)</span>
-                <span>School: <strong class="text-indigo-300">SCOPE</strong></span>
+              <div class="flex justify-between text-slate-600 dark:text-slate-400 pt-1 border-t border-sky-200 dark:border-slate-800">
+                <span>Guide: <strong class="text-emerald-700 dark:text-emerald-400">Prof. SELVI M</strong> (Emp ID: 16106)</span>
+                <span>School: <strong class="text-indigo-700 dark:text-indigo-300">SCOPE</strong></span>
               </div>
             </div>
 
             <div class="flex flex-wrap items-center justify-center gap-3 pt-2">
-              <a href="http://localhost:3000" target="_blank" class="px-6 py-2.5 rounded-xl bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-600 hover:to-blue-700 text-white font-bold text-xs shadow-lg shadow-sky-500/20 transition-all">
+              <a href="http://localhost:3000" target="_blank" class="px-6 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-700 text-white font-bold text-xs shadow-md shadow-sky-500/20 transition-all">
                 🚀 Launch Dashboard
               </a>
-              <a href="../ARCHITECTURE.md" target="_blank" class="px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700 font-bold text-xs transition-all">
+              <a href="../ARCHITECTURE.md" target="_blank" class="px-4 py-2.5 rounded-xl bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700 font-bold text-xs transition-all">
                 📑 Architecture
               </a>
-              <a href="../SECURITY.md" target="_blank" class="px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700 font-bold text-xs transition-all">
+              <a href="../SECURITY.md" target="_blank" class="px-4 py-2.5 rounded-xl bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700 font-bold text-xs transition-all">
                 🔒 Security
               </a>
             </div>
@@ -668,8 +692,17 @@
     const notesContent = document.getElementById("notes-content");
     const toggleNotesBtn = document.getElementById("toggle-notes");
     const toggleFsBtn = document.getElementById("toggle-fs");
+    const toggleThemeBtn = document.getElementById("toggle-theme");
+    const themeIcon = document.getElementById("theme-icon");
 
     totalSlidesEl.textContent = slides.length;
+
+    // Theme Toggle Functionality
+    toggleThemeBtn.addEventListener("click", () => {
+      const isDark = document.documentElement.classList.toggle("dark");
+      document.documentElement.classList.toggle("light", !isDark);
+      themeIcon.textContent = isDark ? "☀️ Light" : "🌙 Dark";
+    });
 
     function renderSlide(index) {
       const slide = slides[index];
@@ -729,6 +762,8 @@
         prevSlide();
       } else if (e.key === "n" || e.key === "N") {
         notesDrawer.classList.toggle("hidden");
+      } else if (e.key === "t" || e.key === "T") {
+        toggleThemeBtn.click();
       } else if (e.key === "f" || e.key === "F") {
         if (!document.fullscreenElement) {
           document.documentElement.requestFullscreen().catch(console.error);
