@@ -15,6 +15,7 @@
     "start:backend": "npm --prefix backend start",
     "start:frontend": "npm --prefix frontend start",
     "build:frontend": "npm --prefix frontend run build",
+    "build:pptx": "node scripts/generate-pptx.js",
     "build:all": "hardhat compile && npm --prefix frontend run build"
   },
   "keywords": [
@@ -36,6 +37,7 @@
     "@nomicfoundation/hardhat-toolbox": "^6.1.0",
     "chai": "^4.5.0",
     "ethers": "^6.17.0",
-    "hardhat": "^2.26.5"
+    "hardhat": "^2.26.5",
+    "pptxgenjs": "^4.0.1"
   }
 }
