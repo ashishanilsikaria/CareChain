@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  # MongoDB Local Database
+  mongodb:
+    image: mongo:7.0
+    container_name: carechain-mongodb
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: carechain
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - carechain-net
+
+  # Backend Gateway Service
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: carechain-backend
+    restart: unless-stopped
+    ports:
+      - "10000:10000"
+    environment:
+      PORT: 10000
+      MONGO_URI: mongodb://mongodb:27017/carechain
+      JWT_SECRET: carechain_super_secret_jwt_key_change_in_production_2026
+      CLIENT_ORIGIN: http://localhost:3000
+    depends_on:
+      - mongodb
+    networks:
+      - carechain-net
+
+  # Frontend Web Client
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: carechain-frontend
+    restart: unless-stopped
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    networks:
+      - carechain-net
+
+volumes:
+  mongo_data:
+
+networks:
+  carechain-net:
+    driver: bridge

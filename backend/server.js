@@ -8,7 +8,7 @@ import dotenv from "dotenv";
 
 import authRoutes from "./routes/authRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
-import recordRoutes from "./records/recordRoutes.js";
+import recordRoutes from "./routes/recordRoutes.js";
 
 import Record from "./models/Record.js";
 import User from "./models/User.js";

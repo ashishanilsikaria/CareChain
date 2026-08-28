@@ -1,9 +1,21 @@
 {
-  "name": "carechain-protocol",
+  "name": "carechain-monorepo",
   "version": "2.0.0",
-  "main": "index.js",
+  "private": true,
+  "description": "CareChain - Enterprise Decentralized Electronic Health Record Protocol",
+  "workspaces": [
+    "backend",
+    "frontend"
+  ],
   "scripts": {
-    "test": "hardhat test"
+    "compile": "hardhat compile",
+    "test:contracts": "hardhat test",
+    "test:all": "hardhat test && npm --prefix frontend test -- --watchAll=false",
+    "deploy:local": "hardhat run scripts/deploy.js --network localhost",
+    "start:backend": "npm --prefix backend start",
+    "start:frontend": "npm --prefix frontend start",
+    "build:frontend": "npm --prefix frontend run build",
+    "build:all": "hardhat compile && npm --prefix frontend run build"
   },
   "keywords": [
     "carechain",
@@ -11,11 +23,12 @@
     "ehr",
     "solidity",
     "blockchain",
-    "ipfs"
+    "ipfs",
+    "ethereum",
+    "polygon"
   ],
-  "author": "",
+  "author": "CareChain Core Team",
   "license": "MIT",
-  "description": "CareChain - Decentralized Sovereign Electronic Health Record Protocol",
   "devDependencies": {
     "@nomicfoundation/hardhat-chai-matchers": "^2.1.2",
     "@nomicfoundation/hardhat-ethers": "^3.1.3",

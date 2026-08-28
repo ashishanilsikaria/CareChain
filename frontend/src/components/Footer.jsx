@@ -1,5 +1,5 @@
 import React from "react";
-import { Activity, ShieldCheck, Heart, ExternalLink } from "lucide-react";
+import { Activity, ShieldCheck, Heart } from "lucide-react";
 
 const Footer = () => {
   return (

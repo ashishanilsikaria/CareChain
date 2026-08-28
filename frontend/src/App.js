@@ -2,8 +2,7 @@ import React from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import { Web3Provider } from "./context/Web3Context";
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
+import MainLayout from "./layouts/MainLayout";
 import Landing from "./pages/Landing";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -39,74 +38,70 @@ const ProtectedRoute = ({ children, allowedRoles }) => {
 
 function AppRoutes() {
   return (
-    <div className="min-h-screen flex flex-col justify-between bg-slate-50 text-slate-900">
-      <Navbar />
-      <div className="flex-1">
-        <Routes>
-          {/* Public Landing & Auth */}
-          <Route path="/" element={<Landing />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/dashboard" element={<Dashboard />} />
+    <MainLayout>
+      <Routes>
+        {/* Public Landing & Auth */}
+        <Route path="/" element={<Landing />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/dashboard" element={<Dashboard />} />
 
-          {/* Dedicated Upload View */}
-          <Route
-            path="/upload"
-            element={
-              <ProtectedRoute allowedRoles={["patient", "doctor", "admin"]}>
-                <div className="max-w-4xl mx-auto py-10 px-4">
-                  <Upload />
-                </div>
-              </ProtectedRoute>
-            }
-          />
+        {/* Dedicated Upload View */}
+        <Route
+          path="/upload"
+          element={
+            <ProtectedRoute allowedRoles={["patient", "doctor", "admin"]}>
+              <div className="max-w-4xl mx-auto py-10 px-4">
+                <Upload />
+              </div>
+            </ProtectedRoute>
+          }
+        />
 
-          {/* Dedicated Vault / History View */}
-          <Route
-            path="/history"
-            element={
-              <ProtectedRoute allowedRoles={["patient", "doctor", "admin"]}>
-                <div className="max-w-7xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
-                  <History />
-                </div>
-              </ProtectedRoute>
-            }
-          />
+        {/* Dedicated Vault / History View */}
+        <Route
+          path="/history"
+          element={
+            <ProtectedRoute allowedRoles={["patient", "doctor", "admin"]}>
+              <div className="max-w-7xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
+                <History />
+              </div>
+            </ProtectedRoute>
+          }
+        />
 
-          {/* Role Portals */}
-          <Route
-            path="/patient-dashboard/*"
-            element={
-              <ProtectedRoute allowedRoles={["patient", "admin"]}>
-                <PatientDashboard />
-              </ProtectedRoute>
-            }
-          />
+        {/* Role Portals */}
+        <Route
+          path="/patient-dashboard/*"
+          element={
+            <ProtectedRoute allowedRoles={["patient", "admin"]}>
+              <PatientDashboard />
+            </ProtectedRoute>
+          }
+        />
 
-          <Route
-            path="/doctor-dashboard/*"
-            element={
-              <ProtectedRoute allowedRoles={["doctor", "admin"]}>
-                <DoctorDashboard />
-              </ProtectedRoute>
-            }
-          />
+        <Route
+          path="/doctor-dashboard/*"
+          element={
+            <ProtectedRoute allowedRoles={["doctor", "admin"]}>
+              <DoctorDashboard />
+            </ProtectedRoute>
+          }
+        />
 
-          <Route
-            path="/admin-dashboard/*"
-            element={
-              <ProtectedRoute allowedRoles={["admin"]}>
-                <AdminDashboard />
-              </ProtectedRoute>
-            }
-          />
+        <Route
+          path="/admin-dashboard/*"
+          element={
+            <ProtectedRoute allowedRoles={["admin"]}>
+              <AdminDashboard />
+            </ProtectedRoute>
+          }
+        />
 
-          {/* Fallback */}
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </div>
-      <Footer />
-    </div>
+        {/* Fallback */}
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </MainLayout>
   );
 }
 

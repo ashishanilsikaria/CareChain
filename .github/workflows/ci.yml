@@ -1,0 +1,77 @@
+name: CareChain Enterprise CI Pipeline
+
+on:
+  push:
+    branches: [ master, main, develop ]
+  pull_request:
+    branches: [ master, main ]
+
+jobs:
+  # 1. Smart Contracts Verification
+  contracts-test:
+    name: Smart Contracts & Security Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'npm'
+
+      - name: Install Root Dependencies
+        run: npm ci
+
+      - name: Compile Solidity Contracts
+        run: npx hardhat compile
+
+      - name: Run Hardhat Test Suite
+        run: npx hardhat test
+
+  # 2. Backend Validation
+  backend-lint-and-check:
+    name: Backend Gateway Verification
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'npm'
+
+      - name: Install Backend Dependencies
+        working-directory: ./backend
+        run: npm ci
+
+      - name: Verify Backend Syntax & Imports
+        working-directory: ./backend
+        run: node -c server.js
+
+  # 3. Frontend Build & Production Check
+  frontend-build:
+    name: Frontend Production Bundle Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'npm'
+
+      - name: Install Frontend Dependencies
+        working-directory: ./frontend
+        run: npm ci
+
+      - name: Build Production Frontend
+        working-directory: ./frontend
+        run: npm run build
+        env:
+          CI: false

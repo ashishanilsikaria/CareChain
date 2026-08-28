@@ -1,4 +1,3 @@
-// backend/records/recordRoutes.js
 import express from "express";
 import crypto from "crypto";
 import Record from "../models/Record.js";
