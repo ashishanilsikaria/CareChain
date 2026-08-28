@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CareChain | Executive Presentation & SDG / TRL Analysis</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            brand: {
+              50: '#f0f9ff',
+              100: '#e0f2fe',
+              500: '#0ea5e9',
+              600: '#0284c7',
+              700: '#0369a1',
+              900: '#0c4a6e',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      overflow: hidden;
+      background: radial-gradient(circle at top right, #0f172a 0%, #020617 100%);
+    }
+    .glass-card {
+      background: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .slide-enter {
+      animation: fadeIn 0.4s ease-out forwards;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(12px) scale(0.99); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+  </style>
+</head>
+<body class="text-slate-100 font-sans h-screen w-screen flex flex-col justify-between select-none">
+
+  <!-- Top Navigation & Presentation Controls -->
+  <header class="w-full px-6 py-4 flex items-center justify-between border-b border-slate-800/80 bg-slate-950/60 backdrop-blur-md z-30">
+    <div class="flex items-center gap-3">
+      <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-sky-500 via-blue-600 to-indigo-600 flex items-center justify-center text-white font-bold shadow-lg shadow-sky-500/20">
+        🩺
+      </div>
+      <div>
+        <h1 class="text-sm font-extrabold tracking-tight text-white">Care<span class="text-sky-400">Chain</span></h1>
+        <p class="text-[10px] text-slate-400 font-medium">Executive Deck • UN SDGs & TRL 6-9 Analysis</p>
+      </div>
+    </div>
+
+    <!-- Progress Indicator -->
+    <div class="flex items-center gap-3">
+      <div class="flex items-center gap-1.5 bg-slate-900 border border-slate-700/80 rounded-xl px-3 py-1.5 text-xs font-mono">
+        <span class="text-sky-400 font-bold" id="current-slide">1</span>
+        <span class="text-slate-500">/</span>
+        <span class="text-slate-400" id="total-slides">9</span>
+      </div>
+
+      <button id="toggle-notes" class="px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700/80 text-xs font-semibold text-slate-300 transition-all flex items-center gap-1">
+        <span>💡 Key Takeaways</span>
+      </button>
+
+      <button id="toggle-fs" class="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700/80 text-slate-300 text-xs transition-all" title="Toggle Fullscreen (F)">
+        ⛶
+      </button>
+    </div>
+  </header>
+
+  <!-- Slide Stage -->
+  <main class="flex-1 max-w-6xl w-full mx-auto p-4 sm:p-6 lg:p-8 flex items-center justify-center overflow-y-auto">
+    <div id="slide-container" class="w-full">
+      <!-- Slides will be rendered dynamically by JavaScript -->
+    </div>
+  </main>
+
+  <!-- Speaker Notes Drawer (Toggled) -->
+  <div id="notes-drawer" class="hidden max-w-6xl mx-auto w-full px-6 mb-2">
+    <div class="glass-card rounded-2xl p-4 border border-sky-500/30 bg-slate-900/90 text-xs text-sky-200 flex items-start gap-3">
+      <span class="text-base">📌</span>
+      <div>
+        <p class="font-bold text-white mb-0.5" id="notes-title">Speaker Focus</p>
+        <p id="notes-content" class="text-slate-300">Notes content here.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Bar: Navigation & Progress Bar -->
+  <footer class="w-full border-t border-slate-800/80 bg-slate-950/80 backdrop-blur-md px-6 py-3.5 z-30">
+    <div class="max-w-6xl mx-auto flex items-center justify-between">
+      <div class="text-[11px] text-slate-500 font-medium">
+        Use <kbd class="px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 font-mono">←</kbd> <kbd class="px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 font-mono">→</kbd> or <kbd class="px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 font-mono">Space</kbd> to navigate
+      </div>
+
+      <div class="flex items-center gap-2">
+        <button id="prev-btn" class="px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold border border-slate-700/80 transition-all disabled:opacity-30 disabled:cursor-not-allowed">
+          ← Previous
+        </button>
+        <button id="next-btn" class="px-5 py-2 rounded-xl bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-600 hover:to-blue-700 text-white text-xs font-bold shadow-lg shadow-sky-500/20 transition-all">
+          Next Slide →
+        </button>
+      </div>
+    </div>
+
+    <!-- Progress line -->
+    <div class="w-full bg-slate-900 h-1 mt-3 rounded-full overflow-hidden">
+      <div id="progress-bar" class="bg-gradient-to-r from-sky-500 to-indigo-500 h-1 transition-all duration-300" style="width: 11%;"></div>
+    </div>
+  </footer>
+
+  <script>
+    const slides = [
+      {
+        id: 1,
+        title: "CareChain: Sovereign Health Records",
+        subtitle: "Decentralized, Patient-Centric Electronic Health Record Protocol",
+        badge: "Web3 HealthTech Vision",
+        notes: "Highlight the core mission: restoring patient ownership over sensitive medical data through cryptographic zero-trust architecture.",
+        html: `
+          <div class="glass-card rounded-3xl p-8 sm:p-12 text-center space-y-6 relative overflow-hidden slide-enter border border-sky-500/20">
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-sky-500/10 border border-sky-400/30 text-sky-300 text-xs font-semibold">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+              Ethereum • Polygon • IPFS • AES-256-GCM
+            </div>
+            
+            <h2 class="text-4xl sm:text-5xl font-extrabold text-white tracking-tight leading-tight">
+              Sovereign Health Records, <br>
+              <span class="bg-gradient-to-r from-sky-400 via-blue-400 to-indigo-400 bg-clip-text text-transparent">Decentralized & Tamper-Proof.</span>
+            </h2>
+
+            <p class="text-slate-300 max-w-2xl mx-auto text-sm sm:text-base leading-relaxed">
+              CareChain bridges Web3 smart contract permissions with client-side AES-256 encryption and IPFS decentralized storage, guaranteeing complete patient autonomy and HIPAA/GDPR compliance.
+            </p>
+
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-6 max-w-3xl mx-auto text-left">
+              <div class="p-4 rounded-2xl bg-slate-900/60 border border-slate-800">
+                <span class="text-xs text-slate-400 font-medium">Security Standard</span>
+                <p class="text-lg font-bold text-sky-400 mt-0.5">AES-256-GCM</p>
+              </div>
+              <div class="p-4 rounded-2xl bg-slate-900/60 border border-slate-800">
+                <span class="text-xs text-slate-400 font-medium">Storage Layer</span>
+                <p class="text-lg font-bold text-indigo-400 mt-0.5">IPFS Distributed</p>
+              </div>
+              <div class="p-4 rounded-2xl bg-slate-900/60 border border-slate-800">
+                <span class="text-xs text-slate-400 font-medium">Access Control</span>
+                <p class="text-lg font-bold text-emerald-400 mt-0.5">Smart Contract RBAC</p>
+              </div>
+              <div class="p-4 rounded-2xl bg-slate-900/60 border border-slate-800">
+                <span class="text-xs text-slate-400 font-medium">Readiness Level</span>
+                <p class="text-lg font-bold text-purple-400 mt-0.5">TRL 6 Prototype</p>
+              </div>
+            </div>
+          </div>
+        `
+      },
+      {
+        id: 2,
+        title: "The Crisis of Centralized Healthcare Data",
+        subtitle: "Why Traditional Electronic Health Records (EHRs) are Broken",
+        badge: "Industry Problem Statement",
+        notes: "Emphasize real-world metrics: 133M+ breached health records in recent years and catastrophic lack of emergency interoperability.",
+        html: `
+          <div class="glass-card rounded-3xl p-8 sm:p-10 slide-enter border border-rose-500/20 space-y-6">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+              <div>
+                <span class="text-xs font-bold text-rose-400 uppercase tracking-wider">The Problem</span>
+                <h3 class="text-2xl font-extrabold text-white mt-1">Fundamental Flaws in Legacy Hospital Systems</h3>
+              </div>
+              <span class="px-3 py-1 rounded-full bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs font-bold">133M+ Breached Records</span>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <div class="p-5 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-2">
+                <div class="w-8 h-8 rounded-lg bg-rose-500/20 text-rose-400 flex items-center justify-center font-bold text-sm">1</div>
+                <h4 class="text-base font-bold text-white">Centralized Honeypots</h4>
+                <p class="text-xs text-slate-400 leading-relaxed">
+                  Hospital databases store unencrypted health files in centralized silos, making them prime targets for ransomware and massive data leaks.
+                </p>
+              </div>
+
+              <div class="p-5 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-2">
+                <div class="w-8 h-8 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold text-sm">2</div>
+                <h4 class="text-base font-bold text-white">Zero Patient Sovereignty</h4>
+                <p class="text-xs text-slate-400 leading-relaxed">
+                  Patients have zero visibility into who accesses, monetizes, or shares their diagnostic records among insurance brokers.
+                </p>
+              </div>
+
+              <div class="p-5 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-2">
+                <div class="w-8 h-8 rounded-lg bg-sky-500/20 text-sky-400 flex items-center justify-center font-bold text-sm">3</div>
+                <h4 class="text-base font-bold text-white">Siloed Interoperability</h4>
+                <p class="text-xs text-slate-400 leading-relaxed">
+                  Incompatible hospital software leads to delayed treatments, duplicate blood tests, and life-threatening information blind spots in emergencies.
+                </p>
+              </div>
+
+              <div class="p-5 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-2">
+                <div class="w-8 h-8 rounded-lg bg-purple-500/20 text-purple-400 flex items-center justify-center font-bold text-sm">4</div>
+                <h4 class="text-base font-bold text-white">Lack of Tamper Evident Logs</h4>
+                <p class="text-xs text-slate-400 leading-relaxed">
+                  Legacy systems lack cryptographic non-repudiation, allowing retroactive record falsification and untraceable access logs.
+                </p>
+              </div>
+            </div>
+          </div>
+        `
+      },
+      {
+        id: 3,
+        title: "The CareChain Zero-Trust Solution",
+        subtitle: "Hybrid Web2/Web3 Decentralized Architecture",
+        badge: "Architectural Innovation",
+        notes: "Explain the hybrid model: smart contract access rules on-chain, encrypted file storage on IPFS, seamless REST gateway for UX.",
+        html: `
+          <div class="glass-card rounded-3xl p-8 sm:p-10 slide-enter border border-sky-500/20 space-y-6">
+            <div class="border-b border-slate-800 pb-4">
+              <span class="text-xs font-bold text-sky-400 uppercase tracking-wider">The Innovation</span>
+              <h3 class="text-2xl font-extrabold text-white mt-1">Zero-Trust Hybrid Healthcare Architecture</h3>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+              <div class="p-5 rounded-2xl bg-slate-900/80 border border-sky-500/30 space-y-3">
+                <div class="w-10 h-10 rounded-xl bg-sky-500/20 text-sky-400 flex items-center justify-center text-xl">🔐</div>
+                <h4 class="text-base font-bold text-white">Client AES-256-GCM</h4>
+                <p class="text-xs text-slate-400 leading-relaxed">
+                  Medical scans and reports are encrypted with distinct 256-bit symmetric keys, 12-byte IVs, and 16-byte authentication tags before transmission.
+                </p>
+              </div>
+
+              <div class="p-5 rounded-2xl bg-slate-900/80 border border-indigo-500/30 space-y-3">
+                <div class="w-10 h-10 rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center text-xl">🌐</div>
+                <h4 class="text-base font-bold text-white">IPFS Decentralization</h4>
+                <p class="text-xs text-slate-400 leading-relaxed">
+                  Encrypted ciphertexts are pinned across decentralized IPFS nodes, generating immutable cryptographic Content Identifiers (CIDs).
+                </p>
+              </div>
+
+              <div class="p-5 rounded-2xl bg-slate-900/80 border border-emerald-500/30 space-y-3">
+                <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-xl">📜</div>
+                <h4 class="text-base font-bold text-white">Smart Contract RBAC</h4>
+                <p class="text-xs text-slate-400 leading-relaxed">
+                  Solidity smart contracts enforce isolated patient access matrices (<code class="text-[11px] text-emerald-300">doctorPermissions[p][d]</code>) with indexed audit events.
+                </p>
+              </div>
+            </div>
+
+            <div class="p-4 rounded-2xl bg-gradient-to-r from-sky-950/50 to-indigo-950/50 border border-sky-500/20 flex items-center justify-between text-xs">
+              <span class="text-slate-300">✅ <strong>HIPAA Security Rule §164.312 Compliant</strong> (TLS 1.3 + AES-256 + Access Controls)</span>
+              <span class="text-slate-300">✅ <strong>GDPR Article 17 "Crypto-Shredding" Ready</strong></span>
+            </div>
+          </div>
+        `
+      },
+      {
+        id: 4,
+        title: "Cryptographic Data & Permission Flow",
+        subtitle: "How Documents are Encrypted, Pinned, and Authorized",
+        badge: "Technical Deep-Dive",
+        notes: "Walk through the sequence: from patient file upload to AES encryption, IPFS pinning, and smart contract access authorization.",
+        html: `
+          <div class="glass-card rounded-3xl p-8 sm:p-10 slide-enter border border-indigo-500/20 space-y-6">
+            <div class="border-b border-slate-800 pb-4">
+              <span class="text-xs font-bold text-indigo-400 uppercase tracking-wider">Protocol Pipeline</span>
+              <h3 class="text-2xl font-extrabold text-white mt-1">End-to-End Cryptographic Lifecycle</h3>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-3 text-left">
+              <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800">
+                <span class="text-[10px] font-mono text-sky-400 font-bold">STEP 01</span>
+                <h5 class="text-xs font-bold text-white mt-1 mb-1">Local Encryption</h5>
+                <p class="text-[11px] text-slate-400">File buffer encrypted with unique AES-256-GCM symmetric key and random IV.</p>
+              </div>
+              <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800">
+                <span class="text-[10px] font-mono text-indigo-400 font-bold">STEP 02</span>
+                <h5 class="text-xs font-bold text-white mt-1 mb-1">IPFS Pinning</h5>
+                <p class="text-[11px] text-slate-400">Encrypted binary is pinned to IPFS gateway, returning SHA-256 content CID.</p>
+              </div>
+              <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800">
+                <span class="text-[10px] font-mono text-emerald-400 font-bold">STEP 03</span>
+                <h5 class="text-xs font-bold text-white mt-1 mb-1">On-Chain Anchor</h5>
+                <p class="text-[11px] text-slate-400">Caller invokes <code class="text-[10px] text-emerald-300">addRecord()</code> to store immutable pointer and emit audit event.</p>
+              </div>
+              <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800">
+                <span class="text-[10px] font-mono text-purple-400 font-bold">STEP 04</span>
+                <h5 class="text-xs font-bold text-white mt-1 mb-1">Selective Sharing</h5>
+                <p class="text-[11px] text-slate-400">Patient grants time-bounded or revocable access to verified doctor wallet.</p>
+              </div>
+            </div>
+
+            <div class="p-4 bg-slate-950 rounded-2xl border border-slate-800 font-mono text-[11px] text-slate-300 space-y-1">
+              <p class="text-slate-500">// Smart Contract Permission Check (MedicalRecord.sol)</p>
+              <p><span class="text-purple-400">function</span> <span class="text-sky-400">getPatientRecords</span>(<span class="text-emerald-400">address</span> patient) <span class="text-purple-400">external view returns</span> (Record[] <span class="text-purple-400">memory</span>) {</p>
+              <p class="pl-4"><span class="text-purple-400">require</span>(msg.sender == patient || (doctors[msg.sender].isVerified && doctorPermissions[patient][msg.sender]), <span class="text-amber-300">"Unauthorized: Access denied"</span>);</p>
+              <p class="pl-4"><span class="text-purple-400">return</span> records[patient];</p>
+              <p>}</p>
+            </div>
+          </div>
+        `
+      },
+      {
+        id: 5,
+        title: "UN Sustainable Development Goals (SDGs)",
+        subtitle: "Global Impact & Healthcare Accessibility Alignment",
+        badge: "United Nations 2030 Agenda",
+        notes: "Key highlight for academic & institutional evaluations: Mapping CareChain to UN SDGs 3, 9, 10, and 16 with concrete targets.",
+        html: `
+          <div class="glass-card rounded-3xl p-8 sm:p-10 slide-enter border border-emerald-500/20 space-y-6">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+              <div>
+                <span class="text-xs font-bold text-emerald-400 uppercase tracking-wider">Global Sustainability Impact</span>
+                <h3 class="text-2xl font-extrabold text-white mt-1">Alignment with UN Sustainable Development Goals</h3>
+              </div>
+              <span class="px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs font-bold">4 Major SDGs Targeted</span>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+              <!-- SDG 3 -->
+              <div class="p-5 rounded-2xl bg-gradient-to-br from-emerald-950/60 to-slate-900 border border-emerald-500/30 space-y-2">
+                <div class="flex items-center justify-between">
+                  <span class="font-extrabold text-sm text-emerald-400 flex items-center gap-1.5">
+                    <span class="w-6 h-6 rounded bg-emerald-600 text-white flex items-center justify-center font-bold text-[10px]">3</span>
+                    Good Health & Well-Being
+                  </span>
+                  <span class="text-[10px] font-mono bg-emerald-900/60 text-emerald-300 px-2 py-0.5 rounded">Target 3.8</span>
+                </div>
+                <p class="text-slate-300 leading-relaxed text-[11px]">
+                  Enables universal portable access to verifiable electronic medical records across regional facilities and cross-border consultations, reducing diagnostic errors and medical misadventures.
+                </p>
+              </div>
+
+              <!-- SDG 9 -->
+              <div class="p-5 rounded-2xl bg-gradient-to-br from-orange-950/60 to-slate-900 border border-orange-500/30 space-y-2">
+                <div class="flex items-center justify-between">
+                  <span class="font-extrabold text-sm text-orange-400 flex items-center gap-1.5">
+                    <span class="w-6 h-6 rounded bg-orange-600 text-white flex items-center justify-center font-bold text-[10px]">9</span>
+                    Industry, Innovation & Infrastructure
+                  </span>
+                  <span class="text-[10px] font-mono bg-orange-900/60 text-orange-300 px-2 py-0.5 rounded">Target 9.5</span>
+                </div>
+                <p class="text-slate-300 leading-relaxed text-[11px]">
+                  Upgrades vulnerable, fragmented legacy hospital databases into fault-tolerant, decentralized healthtech infrastructure leveraging smart contracts and IPFS pinning.
+                </p>
+              </div>
+
+              <!-- SDG 10 -->
+              <div class="p-5 rounded-2xl bg-gradient-to-br from-pink-950/60 to-slate-900 border border-pink-500/30 space-y-2">
+                <div class="flex items-center justify-between">
+                  <span class="font-extrabold text-sm text-pink-400 flex items-center gap-1.5">
+                    <span class="w-6 h-6 rounded bg-pink-600 text-white flex items-center justify-center font-bold text-[10px]">10</span>
+                    Reduced Inequalities
+                  </span>
+                  <span class="text-[10px] font-mono bg-pink-900/60 text-pink-300 px-2 py-0.5 rounded">Target 10.2</span>
+                </div>
+                <p class="text-slate-300 leading-relaxed text-[11px]">
+                  Democratizes patient ownership over health records regardless of socioeconomic class, ensuring data cannot be locked or withheld by proprietary institutional gatekeepers.
+                </p>
+              </div>
+
+              <!-- SDG 16 -->
+              <div class="p-5 rounded-2xl bg-gradient-to-br from-blue-950/60 to-slate-900 border border-blue-500/30 space-y-2">
+                <div class="flex items-center justify-between">
+                  <span class="font-extrabold text-sm text-blue-400 flex items-center gap-1.5">
+                    <span class="w-6 h-6 rounded bg-blue-600 text-white flex items-center justify-center font-bold text-[10px]">16</span>
+                    Peace, Justice & Strong Institutions
+                  </span>
+                  <span class="text-[10px] font-mono bg-blue-900/60 text-blue-300 px-2 py-0.5 rounded">Target 16.6</span>
+                </div>
+                <p class="text-slate-300 leading-relaxed text-[11px]">
+                  Establishes transparent, immutable on-chain audit trails for doctor licensing and diagnostic issuance, mitigating healthcare malpractice fraud and unauthorized data extraction.
+                </p>
+              </div>
+            </div>
+          </div>
+        `
+      },
+      {
+        id: 6,
+        title: "Technology Readiness Level (TRL) Analysis",
+        subtitle: "From Prototype to Commercial Deployment (NASA / EU Horizon Framework)",
+        badge: "Technical Maturity Scorecard",
+        notes: "Clearly position the project at TRL 6: Working prototype verified with end-to-end integration, smart contracts, backend gateway, and frontend portals in a relevant simulated environment.",
+        html: `
+          <div class="glass-card rounded-3xl p-8 sm:p-10 slide-enter border border-purple-500/20 space-y-6">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+              <div>
+                <span class="text-xs font-bold text-purple-400 uppercase tracking-wider">Maturity Evaluation</span>
+                <h3 class="text-2xl font-extrabold text-white mt-1">Current State: TRL 6 (Working Prototype Demonstrated)</h3>
+              </div>
+              <span class="px-3.5 py-1 rounded-full bg-purple-500/20 border border-purple-500/40 text-purple-300 text-xs font-extrabold">★ TRL 6 VERIFIED ★</span>
+            </div>
+
+            <!-- TRL Stage Progression Bar -->
+            <div class="grid grid-cols-4 gap-2 text-center text-xs font-bold">
+              <div class="p-3 rounded-xl bg-slate-900 text-slate-400 border border-slate-800">
+                <span class="text-[10px] text-slate-500 block">TRL 1 - 3</span>
+                Research & Concepts
+              </div>
+              <div class="p-3 rounded-xl bg-slate-900 text-slate-400 border border-slate-800">
+                <span class="text-[10px] text-slate-500 block">TRL 4 - 5</span>
+                Lab Component Testing
+              </div>
+              <div class="p-3 rounded-xl bg-purple-900/60 text-purple-200 border-2 border-purple-500 shadow-lg shadow-purple-500/20">
+                <span class="text-[10px] text-purple-400 block font-mono">CURRENT STAGE</span>
+                TRL 6: Prototype Demo
+              </div>
+              <div class="p-3 rounded-xl bg-slate-900 text-slate-400 border border-slate-800">
+                <span class="text-[10px] text-slate-500 block">TRL 7 - 9</span>
+                Clinical Deployment
+              </div>
+            </div>
+
+            <!-- Verification Evidence Matrix -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+              <div class="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-2">
+                <h4 class="font-bold text-white text-sm flex items-center gap-1.5 text-emerald-400">
+                  <span>✓</span> TRL 6 Verified Deliverables
+                </h4>
+                <ul class="space-y-1 text-slate-300 text-[11px] list-disc list-inside">
+                  <li><strong>Smart Contracts</strong>: <code class="text-sky-300">MedicalRecord.sol</code> deployed with 100% automated test coverage (11/11 Hardhat tests passing).</li>
+                  <li><strong>Cryptographic Gateway</strong>: AES-256-GCM symmetric buffer encryption & IPFS pinning via Pinata live.</li>
+                  <li><strong>Role-Based Portals</strong>: Functional web applications for Patients, Doctors, and Hospital Governance with MetaMask.</li>
+                </ul>
+              </div>
+
+              <div class="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-2">
+                <h4 class="font-bold text-white text-sm flex items-center gap-1.5 text-sky-400">
+                  <span>➔</span> Roadmap to TRL 9 Commercial Deployment
+                </h4>
+                <ul class="space-y-1 text-slate-300 text-[11px] list-disc list-inside">
+                  <li><strong>TRL 7</strong>: Multi-hospital sandbox integration with HL7 FHIR standards and ERC-4337 Account Abstraction.</li>
+                  <li><strong>TRL 8</strong>: Formal CertiK/OpenZeppelin smart contract security audits and HIPAA certification.</li>
+                  <li><strong>TRL 9</strong>: Mainnet production release across partner hospital consortiums.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        `
+      },
+      {
+        id: 7,
+        title: "Cutting-Edge Protocol Innovations",
+        subtitle: "Key Technical Differentiators that Move Beyond Generic Demos",
+        badge: "Advanced Features",
+        notes: "Highlight the novel features: Break-Glass emergency access, ZK-Proofs for insurance/trials, and WebAuthn Passkeys.",
+        html: `
+          <div class="glass-card rounded-3xl p-8 sm:p-10 slide-enter border border-sky-500/20 space-y-6">
+            <div class="border-b border-slate-800 pb-4">
+              <span class="text-xs font-bold text-sky-400 uppercase tracking-wider">Next-Generation Capabilities</span>
+              <h3 class="text-2xl font-extrabold text-white mt-1">High-Impact Healthcare Innovations</h3>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+              <div class="p-5 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-2">
+                <span class="text-base">🚨</span>
+                <h4 class="text-sm font-bold text-white">"Break-Glass" Emergency Protocol</h4>
+                <p class="text-slate-400 leading-relaxed text-[11px]">
+                  Addresses the unconscious ER patient challenge: Verified trauma physicians can trigger a time-delayed cryptographic challenge or multi-guardian approval to decrypt life-saving vitals, backed by on-chain audit penalties.
+                </p>
+              </div>
+
+              <div class="p-5 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-2">
+                <span class="text-base">🛡️</span>
+                <h4 class="text-sm font-bold text-white">Zero-Knowledge (ZK) Health Claims</h4>
+                <p class="text-slate-400 leading-relaxed text-[11px]">
+                  zk-SNARK circuits allowing patients to prove eligibility for clinical trials or insurance criteria (e.g. "HbA1c &lt; 6.5%") without ever revealing raw medical files or identity.
+                </p>
+              </div>
+
+              <div class="p-5 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-2">
+                <span class="text-base">🔑</span>
+                <h4 class="text-sm font-bold text-white">Gasless Account Abstraction (ERC-4337)</h4>
+                <p class="text-slate-400 leading-relaxed text-[11px]">
+                  Replaces complex seed phrases and gas tokens with WebAuthn Passkeys (TouchID / FaceID), sponsored by hospital Paymaster relayers.
+                </p>
+              </div>
+
+              <div class="p-5 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-2">
+                <span class="text-base">🎖️</span>
+                <h4 class="text-sm font-bold text-white">Soulbound Tokens (SBTs - ERC-5192)</h4>
+                <p class="text-slate-400 leading-relaxed text-[11px]">
+                  Non-transferable medical licenses minted by accredited State Medical Boards. If a license is suspended, contract permissions are instantaneously terminated.
+                </p>
+              </div>
+            </div>
+          </div>
+        `
+      },
+      {
+        id: 8,
+        title: "Stakeholder Value & Ecosystem Impact",
+        subtitle: "Multi-Sided Healthcare Economic Proposition",
+        badge: "Business Model & Adoption",
+        notes: "Summarize value for Patients (sovereignty), Doctors (liability reduction), Researchers (privacy pools), and Insurers (fraud reduction).",
+        html: `
+          <div class="glass-card rounded-3xl p-8 sm:p-10 slide-enter border border-slate-700/80 space-y-6">
+            <div class="border-b border-slate-800 pb-4">
+              <span class="text-xs font-bold text-sky-400 uppercase tracking-wider">Value Creation</span>
+              <h3 class="text-2xl font-extrabold text-white mt-1">Transforming the Healthcare Data Economy</h3>
+            </div>
+
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs">
+              <div class="p-4 rounded-2xl bg-slate-900/80 border border-sky-500/20 text-center space-y-2">
+                <div class="w-10 h-10 rounded-xl bg-sky-500/20 text-sky-400 mx-auto flex items-center justify-center font-bold">🧑‍💼</div>
+                <h4 class="font-bold text-white">Patients</h4>
+                <p class="text-[11px] text-slate-400">Total data sovereignty, zero corporate exploitation, seamless portability.</p>
+              </div>
+
+              <div class="p-4 rounded-2xl bg-slate-900/80 border border-emerald-500/20 text-center space-y-2">
+                <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 mx-auto flex items-center justify-center font-bold">👨‍⚕️</div>
+                <h4 class="font-bold text-white">Clinicians</h4>
+                <p class="text-[11px] text-slate-400">Instant access to verified medical histories, zero diagnostic redundancy.</p>
+              </div>
+
+              <div class="p-4 rounded-2xl bg-slate-900/80 border border-purple-500/20 text-center space-y-2">
+                <div class="w-10 h-10 rounded-xl bg-purple-500/20 text-purple-400 mx-auto flex items-center justify-center font-bold">🔬</div>
+                <h4 class="font-bold text-white">Researchers</h4>
+                <p class="text-[11px] text-slate-400">Privacy-preserving Compute-to-Data research pools with patient micro-rewards.</p>
+              </div>
+
+              <div class="p-4 rounded-2xl bg-slate-900/80 border border-indigo-500/20 text-center space-y-2">
+                <div class="w-10 h-10 rounded-xl bg-indigo-500/20 text-indigo-400 mx-auto flex items-center justify-center font-bold">🏛️</div>
+                <h4 class="font-bold text-white">Insurers</h4>
+                <p class="text-[11px] text-slate-400">Immutable blockchain claims verification, preventing fraudulent billing.</p>
+              </div>
+            </div>
+          </div>
+        `
+      },
+      {
+        id: 9,
+        title: "Conclusion & Demonstration",
+        subtitle: "CareChain: Leading the Future of Decentralized Health",
+        badge: "Summary & Open Source Links",
+        notes: "Conclude by pointing to the live local app, test suite, and open source documentation repository.",
+        html: `
+          <div class="glass-card rounded-3xl p-8 sm:p-12 text-center space-y-6 slide-enter border border-sky-500/30">
+            <div class="w-16 h-16 rounded-3xl bg-gradient-to-tr from-sky-500 via-blue-600 to-indigo-600 text-white text-3xl flex items-center justify-center mx-auto shadow-xl shadow-sky-500/25 animate-bounce">
+              🩺
+            </div>
+
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+              Ready for the Next Generation of Healthcare
+            </h2>
+
+            <p class="text-slate-300 max-w-xl mx-auto text-sm leading-relaxed">
+              CareChain provides a verified, production-grade foundation for patient-owned medical records. Backed by solid smart contracts, automated CI/CD pipelines, and rigorous regulatory compliance frameworks.
+            </p>
+
+            <div class="flex flex-wrap items-center justify-center gap-3 pt-2">
+              <a href="http://localhost:3000" target="_blank" class="px-6 py-3 rounded-xl bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-600 hover:to-blue-700 text-white font-bold text-xs shadow-lg shadow-sky-500/20 transition-all">
+                🚀 Launch Web3 Dashboard
+              </a>
+              <a href="../ARCHITECTURE.md" target="_blank" class="px-5 py-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700 font-bold text-xs transition-all">
+                📑 System Architecture
+              </a>
+              <a href="../SECURITY.md" target="_blank" class="px-5 py-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700 font-bold text-xs transition-all">
+                🔒 Security & Compliance
+              </a>
+            </div>
+
+            <p class="text-[11px] text-slate-500 pt-4">
+              CareChain Protocol • Built with React, Solidity, Ethers.js & IPFS
+            </p>
+          </div>
+        `
+      }
+    ];
+
+    let currentIndex = 0;
+    const container = document.getElementById("slide-container");
+    const currentSlideEl = document.getElementById("current-slide");
+    const totalSlidesEl = document.getElementById("total-slides");
+    const prevBtn = document.getElementById("prev-btn");
+    const nextBtn = document.getElementById("next-btn");
+    const progressBar = document.getElementById("progress-bar");
+    const notesDrawer = document.getElementById("notes-drawer");
+    const notesTitle = document.getElementById("notes-title");
+    const notesContent = document.getElementById("notes-content");
+    const toggleNotesBtn = document.getElementById("toggle-notes");
+    const toggleFsBtn = document.getElementById("toggle-fs");
+
+    totalSlidesEl.textContent = slides.length;
+
+    function renderSlide(index) {
+      const slide = slides[index];
+      container.innerHTML = slide.html;
+      currentSlideEl.textContent = index + 1;
+      
+      const progressPercent = ((index + 1) / slides.length) * 100;
+      progressBar.style.width = `${progressPercent}%`;
+
+      prevBtn.disabled = index === 0;
+      nextBtn.textContent = index === slides.length - 1 ? "Finish Presentation 🎉" : "Next Slide →";
+
+      notesTitle.textContent = `Slide ${index + 1}: ${slide.title}`;
+      notesContent.textContent = slide.notes;
+    }
+
+    function nextSlide() {
+      if (currentIndex < slides.length - 1) {
+        currentIndex++;
+        renderSlide(currentIndex);
+      }
+    }
+
+    function prevSlide() {
+      if (currentIndex > 0) {
+        currentIndex--;
+        renderSlide(currentIndex);
+      }
+    }
+
+    prevBtn.addEventListener("click", prevSlide);
+    nextBtn.addEventListener("click", () => {
+      if (currentIndex === slides.length - 1) {
+        currentIndex = 0;
+      } else {
+        currentIndex++;
+      }
+      renderSlide(currentIndex);
+    });
+
+    toggleNotesBtn.addEventListener("click", () => {
+      notesDrawer.classList.toggle("hidden");
+    });
+
+    toggleFsBtn.addEventListener("click", () => {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(console.error);
+      } else {
+        document.exitFullscreen().catch(console.error);
+      }
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight" || e.key === " ") {
+        nextSlide();
+      } else if (e.key === "ArrowLeft") {
+        prevSlide();
+      } else if (e.key === "n" || e.key === "N") {
+        notesDrawer.classList.toggle("hidden");
+      } else if (e.key === "f" || e.key === "F") {
+        if (!document.fullscreenElement) {
+          document.documentElement.requestFullscreen().catch(console.error);
+        } else {
+          document.exitFullscreen().catch(console.error);
+        }
+      }
+    });
+
+    // Initial render
+    renderSlide(0);
+  </script>
+</body>
+</html>
