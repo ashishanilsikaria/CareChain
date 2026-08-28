@@ -15,7 +15,7 @@
     "start:backend": "npm --prefix backend start",
     "start:frontend": "npm --prefix frontend start",
     "build:frontend": "npm --prefix frontend run build",
-    "build:pptx": "node scripts/generate-pptx.js",
+    "build:pptx": "python scripts/generate_pptx.py",
     "build:all": "hardhat compile && npm --prefix frontend run build"
   },
   "keywords": [
