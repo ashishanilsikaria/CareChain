@@ -31,7 +31,6 @@ const userSchema = new mongoose.Schema(
 );
 
 // Index for search & fast lookups
-userSchema.index({ email: 1 });
 userSchema.index({ walletAddress: 1 });
 userSchema.index({ role: 1 });
 

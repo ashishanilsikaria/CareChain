@@ -43,47 +43,44 @@ CareChain is a secure, patient-centric, decentralized medical record management 
 - Git
 - MetaMask Browser Extension (Optional for Web3 mode)
 
-### 1. Clone & Install Dependencies
+### 1. Install Dependencies
+Because CareChain uses npm workspaces, install all dependencies (root, backend, and frontend) in one single command from the root directory:
 ```bash
-# Clone the repository
-git clone https://github.com/your-username/CareChain.git
-cd CareChain
-
-# Install Root (Smart Contract) dependencies
 npm install
-
-# Install Backend dependencies
-cd backend && npm install && cd ..
-
-# Install Frontend dependencies
-cd frontend && npm install && cd ..
 ```
 
-### 2. Smart Contract Testing & Deployment
+### 2. Run Everything (One Command ⚡)
+
+#### Option A: One-Command Local Dev (Backend + Frontend)
+```bash
+npm start
+# or: npm run dev
+```
+- **Backend API**: http://localhost:10000
+- **Frontend App**: http://localhost:3000
+
+#### Option B: One-Command Full Stack (Blockchain Node + Backend + Frontend)
+```bash
+npm run dev:all
+```
+
+#### Option C: One-Command Docker Setup (MongoDB + Backend + Frontend)
+```bash
+docker-compose up --build
+```
+
+---
+
+### 3. Smart Contracts & Testing (Optional)
 ```bash
 # Compile contracts
-npx hardhat compile
+npm run compile
 
 # Run smart contract unit tests
-npx hardhat test
+npm run test:contracts
 
-# Deploy to local network & export ABIs to frontend/backend
-npx hardhat run scripts/deploy.js --network localhost
-```
-
-### 3. Start Backend Gateway
-```bash
-cd backend
-cp .env.example .env
-npm start
-# Backend runs on http://localhost:10000
-```
-
-### 4. Start Frontend Application
-```bash
-cd frontend
-npm start
-# Frontend opens at http://localhost:3000
+# Deploy to local network & export ABIs
+npm run deploy:local
 ```
 
 ---

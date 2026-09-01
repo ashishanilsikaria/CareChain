@@ -8,6 +8,9 @@
     "frontend"
   ],
   "scripts": {
+    "start": "concurrently -n \"BACKEND,FRONTEND\" -c \"cyan,magenta\" \"npm run start:backend\" \"npm run start:frontend\"",
+    "dev": "concurrently -n \"BACKEND,FRONTEND\" -c \"cyan,magenta\" \"npm run start:backend\" \"npm run start:frontend\"",
+    "dev:all": "concurrently -n \"BLOCKCHAIN,BACKEND,FRONTEND\" -c \"yellow,cyan,magenta\" \"npx hardhat node\" \"npm run start:backend\" \"npm run start:frontend\"",
     "compile": "hardhat compile",
     "test:contracts": "hardhat test",
     "test:all": "hardhat test && npm --prefix frontend test -- --watchAll=false",
@@ -43,6 +46,7 @@
     "@nomicfoundation/hardhat-network-helpers": "^1.1.2",
     "@nomicfoundation/hardhat-toolbox": "^6.1.0",
     "chai": "^4.5.0",
+    "concurrently": "^10.0.5",
     "ethers": "^6.17.0",
     "hardhat": "^2.26.5",
     "pptxgenjs": "^4.0.1"

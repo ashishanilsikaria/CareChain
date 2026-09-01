@@ -1,6 +1,7 @@
 {
   "name": "carechain-backend",
   "version": "2.0.0",
+  "type": "module",
   "description": "CareChain Decentralized Healthcare Gateway API",
   "main": "server.js",
   "scripts": {
@@ -16,7 +17,9 @@
     "express-rate-limit": "^7.5.0",
     "form-data": "^4.0.2",
     "jsonwebtoken": "^9.0.2",
+    "mongodb-memory-server": "^11.2.0",
     "mongoose": "^8.12.1",
+    "morgan": "^1.10.0",
     "multer": "^1.4.5-lts.1"
   },
   "devDependencies": {
