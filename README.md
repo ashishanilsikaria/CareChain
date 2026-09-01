@@ -88,12 +88,14 @@ npm start
 
 ---
 
-## 📚 Documentation
+## 📚 Documentation & Academic Deliverables
 
-- [System Architecture Guide](file:///e:/dev/Project%201/MediBlock/docs/ARCHITECTURE.md)
-- [Security & HIPAA/GDPR Compliance](file:///e:/dev/Project%201/MediBlock/docs/SECURITY.md)
-- [REST API Reference](file:///e:/dev/Project%201/MediBlock/docs/API.md)
-- [Multi-Agent Operations Guide (AGENTS.md)](file:///e:/dev/Project%201/MediBlock/AGENTS.md)
+- [System Architecture Guide](./docs/ARCHITECTURE.md)
+- [Security & HIPAA/GDPR Compliance](./docs/SECURITY.md)
+- [REST API Reference](./docs/API.md)
+- [Multi-Agent Operations Guide (AGENTS.md)](./AGENTS.md)
+- [Review 1 Academic Package](./docs/reviews/Review%201/)
+- [Review 2 Finalized Report & Presentation](./docs/reviews/Review%202/)
 
 ---
 

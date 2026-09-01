@@ -15,7 +15,14 @@
     "start:backend": "npm --prefix backend start",
     "start:frontend": "npm --prefix frontend start",
     "build:frontend": "npm --prefix frontend run build",
-    "build:pptx": "python scripts/generate_pptx.py",
+    "build:presentation:py": "python scripts/build_presentation.py",
+    "build:presentation:js": "node scripts/build_presentation.js",
+    "build:review1": "python scripts/build_review1_presentation.py",
+    "build:review2:diagrams": "python scripts/build_review2_diagrams.py",
+    "build:review2:report": "python scripts/build_review2_report.py",
+    "build:review2:ppt": "python scripts/build_review2_presentation.py",
+    "build:review2:all": "python scripts/build_review2_diagrams.py && python scripts/build_review2_report.py && python scripts/build_review2_presentation.py",
+    "verify:review2": "python scripts/verify_review2_report.py && python scripts/verify_review2_presentation.py",
     "build:all": "hardhat compile && npm --prefix frontend run build"
   },
   "keywords": [
