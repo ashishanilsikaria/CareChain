@@ -1,9 +1,11 @@
 import express from "express";
 import crypto from "crypto";
+import axios from "axios";
 import Record from "../models/Record.js";
 import User from "../models/User.js";
 import { authMiddleware } from "../middleware/authMiddleware.js";
 import { allowRoles } from "../middleware/roleMiddleware.js";
+import { decryptBuffer } from "../utils/encrypt.js";
 
 const router = express.Router();
 
@@ -74,6 +76,64 @@ router.get("/patient/:patientId", allowRoles("doctor", "admin"), async (req, res
   } catch (err) {
     console.error("Doctor View Patient Records Error:", err);
     return res.status(500).json({ error: "Failed to retrieve patient records" });
+  }
+});
+
+/**
+ * @route   GET /records/:id/download
+ * @desc    Fetch encrypted ciphertext from IPFS, decrypt with AES-256-GCM, and stream to client
+ */
+router.get("/:id/download", async (req, res) => {
+  try {
+    const record = await Record.findById(req.params.id);
+    if (!record) {
+      return res.status(404).json({ error: "Record not found" });
+    }
+
+    // Role-based access validation
+    const userId = req.user.id;
+    const isOwner = record.userId.toString() === userId || record.uploadedBy?.toString() === userId;
+    const isSharedDoctor = record.sharedWith.some(
+      (s) => s.doctor?.toString() === userId || (req.user.walletAddress && s.doctorAddress?.toLowerCase() === req.user.walletAddress.toLowerCase())
+    );
+    const isAdmin = req.user.role === "admin";
+
+    if (!isOwner && !isSharedDoctor && !isAdmin) {
+      return res.status(403).json({ error: "Access denied. You do not have active cryptographic permission for this record." });
+    }
+
+    // Fetch ciphertext payload from IPFS Gateway
+    const gateway = process.env.PINATA_GATEWAY || "https://gateway.pinata.cloud/ipfs/";
+    const ipfsUrl = `${gateway.replace(/\/+$/, "")}/${record.cid}`;
+
+    let response;
+    try {
+      response = await axios.get(ipfsUrl, { responseType: "arraybuffer", timeout: 15000 });
+    } catch (ipfsErr) {
+      console.error("IPFS Fetch Error:", ipfsErr.message);
+      return res.status(502).json({ error: "Failed to fetch encrypted document from IPFS gateway", details: ipfsErr.message });
+    }
+
+    // Decrypt ciphertext using stored symmetric key & IV
+    if (!record.key || !record.iv) {
+      return res.status(500).json({ error: "Decryption key or IV missing for this record" });
+    }
+
+    const decryptedBuffer = decryptBuffer(
+      Buffer.from(response.data),
+      record.key,
+      record.iv,
+      record.tag
+    );
+
+    res.setHeader("Content-Type", record.mimeType || "application/octet-stream");
+    res.setHeader("Content-Disposition", `attachment; filename="${encodeURIComponent(record.name)}"`);
+    res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, private");
+
+    return res.send(decryptedBuffer);
+  } catch (err) {
+    console.error("Record Decrypt & Download Error:", err);
+    return res.status(500).json({ error: "Decryption failed", details: err.message });
   }
 });
 

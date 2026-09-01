@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
-import { listRecords, getDoctorsList } from "../../api";
+import { listRecords, getDoctorsList, downloadDecryptedRecord } from "../../api";
 import {
   FileText,
   UploadCloud,
@@ -12,6 +12,7 @@ import {
   ArrowRight,
   ShieldCheck,
   ExternalLink,
+  Download,
   Activity,
   HeartPulse,
 } from "lucide-react";
@@ -193,18 +194,31 @@ const IndexPage = () => {
                 </div>
 
                 <div className="flex items-center gap-2">
-                  <span className="text-[10px] font-mono bg-slate-100 px-2 py-0.5 rounded text-slate-600">
-                    CID: {rec.cid ? `${rec.cid.slice(0, 8)}...` : "Local"}
-                  </span>
-                  <a
-                    href={`https://gateway.pinata.cloud/ipfs/${rec.cid}`}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="p-1.5 text-slate-400 hover:text-sky-600"
-                    title="View IPFS Gateway"
+                  <button
+                    onClick={async () => {
+                      try {
+                        await downloadDecryptedRecord(rec._id, rec.name);
+                      } catch (err) {
+                        alert(err.message || "Failed to download decrypted document");
+                      }
+                    }}
+                    className="p-1.5 bg-emerald-50 text-emerald-600 hover:bg-emerald-100 rounded-lg flex items-center gap-1 text-[11px] font-semibold"
+                    title="Decrypt and Download"
                   >
-                    <ExternalLink className="w-3 h-3" />
-                  </a>
+                    <Download className="w-3.5 h-3.5" />
+                    <span>Download</span>
+                  </button>
+                  {rec.cid && (
+                    <a
+                      href={`https://gateway.pinata.cloud/ipfs/${rec.cid}`}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="p-1.5 text-slate-400 hover:text-sky-600"
+                      title="View Raw Ciphertext on IPFS"
+                    >
+                      <ExternalLink className="w-3.5 h-3.5" />
+                    </a>
+                  )}
                 </div>
               </div>
             ))}

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { useWeb3 } from "../../context/Web3Context";
-import { listRecords, uploadEncryptedFile, simulateBlockchainRecord } from "../../api";
+import { listRecords, uploadEncryptedFile, simulateBlockchainRecord, downloadDecryptedRecord } from "../../api";
 import {
   Stethoscope,
   ShieldCheck,
@@ -9,6 +9,7 @@ import {
   FilePlus,
   FileText,
   ExternalLink,
+  Download,
   Wallet,
   X,
 } from "lucide-react";
@@ -291,17 +292,36 @@ const DoctorDashboard = () => {
                     </td>
 
                     <td className="py-3 px-4 text-right">
-                      {r.cid && (
-                        <a
-                          href={`https://gateway.pinata.cloud/ipfs/${r.cid}`}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="px-3 py-1.5 bg-sky-50 text-sky-700 hover:bg-sky-100 font-semibold rounded-lg inline-flex items-center gap-1"
-                        >
-                          <span>Open IPFS</span>
-                          <ExternalLink className="w-3 h-3" />
-                        </a>
-                      )}
+                      <div className="flex items-center justify-end gap-2">
+                        {r._id && (
+                          <button
+                            onClick={async () => {
+                              try {
+                                await downloadDecryptedRecord(r._id, r.name);
+                              } catch (err) {
+                                alert(err.message || "Failed to download decrypted document");
+                              }
+                            }}
+                            className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-lg inline-flex items-center gap-1.5 shadow-sm transition-colors text-xs"
+                            title="Decrypt with AES-256-GCM and Download"
+                          >
+                            <Download className="w-3.5 h-3.5" />
+                            <span>Decrypt & View</span>
+                          </button>
+                        )}
+                        {r.cid && (
+                          <a
+                            href={`https://gateway.pinata.cloud/ipfs/${r.cid}`}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="px-2.5 py-1.5 bg-slate-100 text-slate-600 hover:bg-slate-200 font-medium rounded-lg inline-flex items-center gap-1 text-xs"
+                            title="View Raw Encrypted Ciphertext on IPFS"
+                          >
+                            <span>Raw IPFS</span>
+                            <ExternalLink className="w-3 h-3" />
+                          </a>
+                        )}
+                      </div>
                     </td>
                   </tr>
                 ))}

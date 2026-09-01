@@ -5,6 +5,7 @@ import mongoose from "mongoose";
 import User from "../models/User.js";
 
 dotenv.config({ path: new URL("../../atlas-credentials.env", import.meta.url) });
+dotenv.config({ path: new URL("../../.env", import.meta.url) });
 dotenv.config();
 
 const MONGO_URI = process.env.MONGODB_URI;

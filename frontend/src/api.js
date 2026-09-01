@@ -168,3 +168,23 @@ export async function toggleUserVerification(userId, isVerified) {
   if (!res.ok) throw new Error(data.error || "Failed to update verification");
   return data;
 }
+
+export async function downloadDecryptedRecord(recordId, filename) {
+  const res = await fetch(`${API_BASE}/records/${recordId}/download`, {
+    headers: { ...getAuthHeader() },
+  });
+  if (!res.ok) {
+    const errorData = await res.json().catch(() => ({}));
+    throw new Error(errorData.error || "Failed to download decrypted record");
+  }
+  const blob = await res.blob();
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename || "medical-record";
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  window.URL.revokeObjectURL(url);
+}
+

@@ -22,6 +22,7 @@
     "verify:sepolia": "hardhat verify --network sepolia",
     "verify:amoy": "hardhat verify --network polygonAmoy",
     "start:backend": "npm --prefix backend start",
+    "seed:demo": "npm --prefix backend run seed:demo",
     "start:frontend": "npm --prefix frontend start",
     "build:frontend": "npm --prefix frontend run build",
     "build:presentation:py": "python scripts/build_presentation.py",

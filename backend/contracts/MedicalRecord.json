@@ -1,6 +1,6 @@
 {
   "address": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
-  "network": "hardhat",
+  "network": "localhost",
   "abi": [
     {
       "inputs": [],
@@ -445,5 +445,5 @@
       "type": "function"
     }
   ],
-  "deployedAt": "2026-09-01T15:38:24.222Z"
+  "deployedAt": "2026-09-01T16:13:54.167Z"
 }

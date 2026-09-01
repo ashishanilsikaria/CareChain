@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { listRecords, getDoctorsList, shareRecordWithDoctor, revokeRecordDoctorAccess } from "../../api";
+import { listRecords, getDoctorsList, shareRecordWithDoctor, revokeRecordDoctorAccess, downloadDecryptedRecord } from "../../api";
 import {
   FileText,
   Search,
@@ -7,6 +7,7 @@ import {
   ExternalLink,
   ShieldCheck,
   Share2,
+  Download,
   CheckCircle2,
   X,
   AlertCircle,
@@ -247,6 +248,20 @@ const History = () => {
                     </td>
 
                     <td className="py-3 px-4 text-right space-x-2">
+                      <button
+                        onClick={async () => {
+                          try {
+                            await downloadDecryptedRecord(r._id, r.name);
+                          } catch (err) {
+                            alert(err.message || "Failed to download decrypted document");
+                          }
+                        }}
+                        className="p-1.5 rounded-lg bg-emerald-50 text-emerald-600 hover:bg-emerald-100 font-semibold inline-flex items-center gap-1"
+                        title="Decrypt and Download Record"
+                      >
+                        <Download className="w-3.5 h-3.5" />
+                        <span className="text-[11px]">Download</span>
+                      </button>
                       <button
                         onClick={() => handleOpenShare(r)}
                         className="p-1.5 rounded-lg bg-sky-50 text-sky-600 hover:bg-sky-100 font-semibold inline-flex items-center gap-1"

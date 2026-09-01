@@ -17,9 +17,9 @@ import { allowRoles } from "./middleware/roleMiddleware.js";
 import { encryptBuffer } from "./utils/encrypt.js";
 import { pinToIPFS } from "./utils/pinata.js";
 
-// Atlas credentials live at the repository root and are excluded from version
-// control. Existing process environment variables still take precedence.
+// Atlas credentials and .env live at the repository root
 dotenv.config({ path: new URL("../atlas-credentials.env", import.meta.url) });
+dotenv.config({ path: new URL("../.env", import.meta.url) });
 dotenv.config();
 
 const app = express();
