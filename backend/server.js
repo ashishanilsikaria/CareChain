@@ -5,8 +5,6 @@ import multer from "multer";
 import morgan from "morgan";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import { MongoMemoryServer } from "mongodb-memory-server";
-import bcrypt from "bcryptjs";
 
 import authRoutes from "./routes/authRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
@@ -19,6 +17,9 @@ import { allowRoles } from "./middleware/roleMiddleware.js";
 import { encryptBuffer } from "./utils/encrypt.js";
 import { pinToIPFS } from "./utils/pinata.js";
 
+// Atlas credentials live at the repository root and are excluded from version
+// control. Existing process environment variables still take precedence.
+dotenv.config({ path: new URL("../atlas-credentials.env", import.meta.url) });
 dotenv.config();
 
 const app = express();
@@ -57,65 +58,15 @@ app.use(morgan("dev"));
 
 // ---------- Database Connection ----------
 async function connectDB() {
-  const uri = MONGO_URI;
-  if (uri) {
-    await mongoose.connect(uri, { dbName: "carechain" });
-    console.log("✅ MongoDB connected:", uri);
-  } else {
-    console.warn("⚠️  No MONGODB_URI set – starting embedded in-memory MongoDB for development.");
-    const memServer = await MongoMemoryServer.create({ instance: { dbName: "carechain" } });
-    const memUri = memServer.getUri();
-    await mongoose.connect(memUri);
-    console.log("✅ In-memory MongoDB ready at:", memUri);
+  if (!MONGO_URI) {
+    throw new Error("MONGODB_URI is required. Set it in atlas-credentials.env or the process environment.");
   }
-}
 
-// ---------- Demo User Seeder ----------
-async function seedDemoUsers() {
-  try {
-    const demoUsers = [
-      {
-        name: "Demo Patient",
-        email: "patient@demo.com",
-        password: "Demo@1234",
-        role: "patient",
-        isVerified: true,
-      },
-      {
-        name: "Demo Doctor",
-        email: "doctor@demo.com",
-        password: "Demo@1234",
-        role: "doctor",
-        specialization: "General Medicine",
-        hospitalName: "CareChain Demo Hospital",
-        doctorId: "DOC-DEMO-001",
-        isVerified: true,
-      },
-      {
-        name: "Demo Admin",
-        email: "admin@demo.com",
-        password: "Demo@1234",
-        role: "admin",
-        isVerified: true,
-      },
-    ];
-
-    for (const u of demoUsers) {
-      const exists = await User.findOne({ email: u.email });
-      if (!exists) {
-        const hashedPassword = await bcrypt.hash(u.password, 10);
-        await User.create({ ...u, password: hashedPassword });
-        console.log(`✅ Demo user seeded: ${u.email} [${u.role}]`);
-      }
-    }
-    console.log("🌱 Demo users ready — patient@demo.com / doctor@demo.com / admin@demo.com (password: Demo@1234)");
-  } catch (err) {
-    console.warn("⚠️  Demo user seeding failed:", err.message);
-  }
+  await mongoose.connect(MONGO_URI, { dbName: "carechain" });
+  console.log("✅ MongoDB Atlas connected successfully");
 }
 
 connectDB()
-  .then(() => seedDemoUsers())
   .catch((e) => {
     console.error("❌ Database startup failed:", e.message);
     process.exit(1);
