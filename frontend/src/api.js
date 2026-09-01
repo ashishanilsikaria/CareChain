@@ -2,8 +2,8 @@
 const API_BASE =
   process.env.REACT_APP_API_URL ||
   (typeof window !== "undefined" && window.location.hostname === "localhost"
-    ? "http://localhost:10000"
-    : "http://localhost:10000");
+    ? "http://localhost:5000"
+    : "http://localhost:5000");
 
 export function getAuthHeader() {
   const token = localStorage.getItem("token");

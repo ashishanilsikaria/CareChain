@@ -67,7 +67,7 @@ npx hardhat run scripts/deploy.js     # Deploy locally & export ABI
 # --- Backend Service ---
 cd backend
 npm install                           # Install backend dependencies
-npm start                             # Start server on http://localhost:10000
+npm start                             # Start server on http://localhost:5000
 
 # --- Frontend Application ---
 cd frontend

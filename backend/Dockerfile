@@ -11,7 +11,7 @@ RUN npm ci --only=production
 COPY . .
 
 # Expose Gateway Port
-EXPOSE 10000
+EXPOSE 5000
 
 # Start server
 CMD ["node", "server.js"]

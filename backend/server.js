@@ -23,7 +23,7 @@ dotenv.config({ path: new URL("../atlas-credentials.env", import.meta.url) });
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 10000;
+const PORT = process.env.PORT || 5000;
 const JSON_LIMIT = process.env.JSON_LIMIT || "10mb";
 const CORS_ORIGIN = process.env.CORS_ORIGIN || "*";
 const MONGO_URI = process.env.MONGODB_URI || "";

@@ -1,6 +1,6 @@
 # CareChain REST API Reference
 
-Base URL: `http://localhost:10000` (or configured `PORT`)
+Base URL: `http://localhost:5000` (or configured `PORT`)
 
 All protected routes require a Bearer token in the request header:
 `Authorization: Bearer <JWT_TOKEN>`

@@ -56,7 +56,7 @@ npm install
 npm start
 # or: npm run dev
 ```
-- **Backend API**: http://localhost:10000
+- **Backend API**: http://localhost:5000
 - **Frontend App**: http://localhost:3000
 
 #### Option B: One-Command Full Stack (Blockchain Node + Backend + Frontend)
