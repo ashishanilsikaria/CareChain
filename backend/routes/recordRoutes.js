@@ -143,34 +143,57 @@ router.get("/:id/download", async (req, res) => {
  */
 router.post("/simulate", async (req, res) => {
   try {
-    const { name, title, recordType, note, cid, key, iv, tag, patientAddress, patientId } = req.body;
+    const { recordId, name, title, recordType, note, cid, key, iv, tag, patientAddress, patientId } = req.body;
     if (!name || !cid) {
       return res.status(400).json({ error: "Record name and IPFS CID are required" });
     }
 
     const fakeTxHash = "0x" + crypto.randomBytes(32).toString("hex");
-
     const targetUserId = req.user.role === "doctor" && patientId ? patientId : req.user.id;
 
-    const newRecord = await Record.create({
-      userId: targetUserId,
-      uploadedBy: req.user.id,
-      patientAddress: patientAddress || req.user.walletAddress || null,
-      name,
-      title: title || name,
-      recordType: recordType || "General",
-      note: note || "Decentralized medical record",
-      cid,
-      key: key || "",
-      iv: iv || "",
-      tag: tag || "",
-      txHash: fakeTxHash,
-    });
+    let record;
+    if (recordId) {
+      record = await Record.findOneAndUpdate(
+        { _id: recordId, userId: targetUserId },
+        {
+          $set: {
+            patientAddress: patientAddress || req.user.walletAddress || null,
+            name,
+            title: title || name,
+            recordType: recordType || "General",
+            note: note || "Encrypted medical upload",
+            cid,
+            key: key || "",
+            iv: iv || "",
+            tag: tag || "",
+            txHash: fakeTxHash,
+          },
+        },
+        { new: true }
+      );
+    }
+
+    if (!record) {
+      record = await Record.create({
+        userId: targetUserId,
+        uploadedBy: req.user.id,
+        patientAddress: patientAddress || req.user.walletAddress || null,
+        name,
+        title: title || name,
+        recordType: recordType || "General",
+        note: note || "Encrypted medical upload",
+        cid,
+        key: key || "",
+        iv: iv || "",
+        tag: tag || "",
+        txHash: fakeTxHash,
+      });
+    }
 
     return res.status(201).json({
       success: true,
       message: "Medical record securely recorded on simulated blockchain",
-      record: newRecord,
+      record,
     });
   } catch (err) {
     console.error("Simulate Record Error:", err);
@@ -235,17 +258,24 @@ router.post("/revoke-share", allowRoles("patient"), async (req, res) => {
       return res.status(400).json({ error: "Doctor ID or Address is required to revoke" });
     }
 
-    const filter = doctorId ? { "sharedWith.doctor": doctorId } : { "sharedWith.doctorAddress": doctorAddress.toLowerCase() };
+    const doctorObjectId = doctorId ? doctorId.toString() : null;
+    const normalizedDoctorAddress = doctorAddress ? doctorAddress.toLowerCase().trim() : null;
+    const sharedWithMatch = {
+      $or: [
+        ...(doctorObjectId ? [{ doctor: doctorObjectId }] : []),
+        ...(normalizedDoctorAddress ? [{ doctorAddress: normalizedDoctorAddress }] : []),
+      ],
+    };
 
     if (recordId) {
       await Record.findOneAndUpdate(
         { _id: recordId, userId: req.user.id },
-        { $pull: { sharedWith: filter } }
+        { $pull: { sharedWith: sharedWithMatch } }
       );
     } else {
       await Record.updateMany(
         { userId: req.user.id },
-        { $pull: { sharedWith: filter } }
+        { $pull: { sharedWith: sharedWithMatch } }
       );
     }
 
@@ -253,6 +283,24 @@ router.post("/revoke-share", allowRoles("patient"), async (req, res) => {
   } catch (err) {
     console.error("Revoke Share Error:", err);
     return res.status(500).json({ error: "Failed to revoke access" });
+  }
+});
+
+router.delete("/:id", allowRoles("patient"), async (req, res) => {
+  try {
+    const deletedRecord = await Record.findOneAndDelete({
+      _id: req.params.id,
+      userId: req.user.id,
+    });
+
+    if (!deletedRecord) {
+      return res.status(404).json({ error: "Record not found or you do not have permission to delete it" });
+    }
+
+    return res.json({ success: true, message: "Record deleted successfully" });
+  } catch (err) {
+    console.error("Delete Record Error:", err);
+    return res.status(500).json({ error: "Failed to delete record" });
   }
 });
 

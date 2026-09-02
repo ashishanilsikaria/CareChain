@@ -61,6 +61,7 @@ const Upload = ({ onUploadSuccess }) => {
       // Step 2: Register on Blockchain / Simulated Immutable Ledger
       setStatusStep(3);
       const simRes = await simulateBlockchainRecord({
+        recordId: uploadRes.id,
         name: file.name,
         title: title || file.name,
         recordType,
@@ -119,9 +120,9 @@ const Upload = ({ onUploadSuccess }) => {
             <CheckCircle2 className="w-10 h-10" />
           </div>
           <div>
-            <h3 className="text-lg font-bold text-slate-900">Record Successfully Anchored!</h3>
+            <h3 className="text-lg font-bold text-slate-900">Document uploaded successfully</h3>
             <p className="text-xs text-slate-600 mt-1">
-              Your document is encrypted and stored immutably.
+              Stored once in your encrypted vault and linked to the blockchain proof.
             </p>
           </div>
 
@@ -139,7 +140,7 @@ const Upload = ({ onUploadSuccess }) => {
               </a>
             </div>
             <div className="flex items-center justify-between">
-              <span className="text-slate-500 font-sans font-semibold">Blockchain TxHash:</span>
+              <span className="text-slate-500 font-sans font-semibold">Blockchain Proof:</span>
               <span className="text-slate-800 font-semibold">
                 {uploadResult.txHash.slice(0, 16)}...{uploadResult.txHash.slice(-6)}
               </span>
@@ -147,7 +148,7 @@ const Upload = ({ onUploadSuccess }) => {
             <div className="flex items-center justify-between">
               <span className="text-slate-500 font-sans font-semibold">Status:</span>
               <span className="text-emerald-600 font-semibold flex items-center gap-1 font-sans">
-                <span className="w-2 h-2 rounded-full bg-emerald-500"></span> Verified & Synced
+                <span className="w-2 h-2 rounded-full bg-emerald-500"></span> Verified & synced
               </span>
             </div>
           </div>

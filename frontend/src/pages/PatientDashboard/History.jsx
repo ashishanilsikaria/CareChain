@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { listRecords, getDoctorsList, shareRecordWithDoctor, revokeRecordDoctorAccess, downloadDecryptedRecord } from "../../api";
+import {
+  listRecords,
+  getDoctorsList,
+  shareRecordWithDoctor,
+  revokeRecordDoctorAccess,
+  deletePatientRecord,
+  downloadDecryptedRecord,
+} from "../../api";
 import {
   FileText,
   Search,
@@ -8,6 +15,7 @@ import {
   ShieldCheck,
   Share2,
   Download,
+  Trash2,
   CheckCircle2,
   X,
   AlertCircle,
@@ -83,6 +91,17 @@ const History = () => {
       fetchRecords();
     } catch (err) {
       alert("Failed to revoke: " + err.message);
+    }
+  };
+
+  const handleDeleteRecord = async (recordId) => {
+    if (!window.confirm("This will permanently delete the document from your vault. Continue?")) return;
+
+    try {
+      await deletePatientRecord(recordId);
+      await fetchRecords();
+    } catch (err) {
+      alert(err.message || "Failed to delete record");
     }
   };
 
@@ -269,6 +288,14 @@ const History = () => {
                       >
                         <Share2 className="w-3.5 h-3.5" />
                         <span className="text-[11px]">Share</span>
+                      </button>
+                      <button
+                        onClick={() => handleDeleteRecord(r._id)}
+                        className="p-1.5 rounded-lg bg-rose-50 text-rose-600 hover:bg-rose-100 font-semibold inline-flex items-center gap-1"
+                        title="Delete record"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                        <span className="text-[11px]">Delete</span>
                       </button>
                     </td>
                   </tr>

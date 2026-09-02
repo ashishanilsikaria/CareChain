@@ -127,6 +127,16 @@ export async function revokeRecordDoctorAccess(payload) {
   return data;
 }
 
+export async function deletePatientRecord(recordId) {
+  const res = await fetch(`${API_BASE}/records/${recordId}`, {
+    method: "DELETE",
+    headers: { ...getAuthHeader() },
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error || "Failed to delete record");
+  return data;
+}
+
 // ---------- User & Doctor APIs ----------
 export async function getDoctorsList() {
   const res = await fetch(`${API_BASE}/users/doctors`, {

@@ -39,6 +39,7 @@ const Doctors = () => {
         doctorId: doctor._id,
         doctorAddress: doctor.walletAddress,
       });
+      await fetchDoctors();
       setActionStatus((prev) => ({ ...prev, [doctor._id]: "Access Granted ✅" }));
       setTimeout(() => {
         setActionStatus((prev) => ({ ...prev, [doctor._id]: null }));
@@ -56,6 +57,7 @@ const Doctors = () => {
         doctorId: doctor._id,
         doctorAddress: doctor.walletAddress,
       });
+      await fetchDoctors();
       setActionStatus((prev) => ({ ...prev, [doctor._id]: "Revoked ❌" }));
       setTimeout(() => {
         setActionStatus((prev) => ({ ...prev, [doctor._id]: null }));
