@@ -44,24 +44,24 @@ CareChain is a secure, patient-centric, decentralized medical record management 
 - MetaMask Browser Extension (Optional for Web3 mode)
 
 ### 1. Install Dependencies
-Because CareChain uses npm workspaces, install all dependencies (root, backend, and frontend) in one single command from the root directory:
+Because CareChain uses Bun workspaces, install all dependencies (root, backend, and frontend) in one single command from the root directory:
 ```bash
-npm install
+bun install
 ```
 
 ### 2. Run Everything (One Command ⚡)
 
 #### Option A: One-Command Local Dev (Backend + Frontend)
 ```bash
-npm start
-# or: npm run dev
+bun start
+# or: bun run dev
 ```
 - **Backend API**: http://localhost:5000
 - **Frontend App**: http://localhost:3000
 
 #### Option B: One-Command Full Stack (Blockchain Node + Backend + Frontend)
 ```bash
-npm run dev:all
+bun run dev:all
 ```
 
 #### Option C: One-Command Docker Setup (MongoDB + Backend + Frontend)
@@ -74,13 +74,13 @@ docker-compose up --build
 ### 3. Smart Contracts & Testing (Optional)
 ```bash
 # Compile contracts
-npm run compile
+bun run compile
 
 # Run smart contract unit tests
-npm run test:contracts
+bun run test:contracts
 
 # Deploy to local network & export ABIs
-npm run deploy:local
+bun run deploy:local
 ```
 
 ---

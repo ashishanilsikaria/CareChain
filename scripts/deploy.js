@@ -1,7 +1,10 @@
 // scripts/deploy.js
-const hre = require("hardhat");
-const fs = require("fs");
-const path = require("path");
+import hre from "hardhat";
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 async function main() {
   console.log("🚀 Deploying MedicalRecord contract to network:", hre.network.name);

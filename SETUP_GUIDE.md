@@ -8,7 +8,7 @@
 
 Ensure the following tools are installed on your machine:
 
-1. **[Node.js (v18 or higher)](https://nodejs.org)** (Includes `npm`)
+1. **[Bun (v1.4 or higher)](https://bun.sh)** (Includes the Node.js runtime)
 2. **[Git](https://git-scm.com/)**
 3. **[MetaMask Browser Extension](https://metamask.io/)** (Chrome, Brave, Edge, or Firefox)
 4. **A MongoDB Connection String**:
@@ -23,16 +23,16 @@ Open your terminal in the project directory:
 
 ```bash
 # 1. Install root dependencies (Hardhat, Ethers, Concurrently)
-npm install
+bun install
 
 # 2. Install backend dependencies
 cd backend
-npm install
+bun install
 cd ..
 
 # 3. Install frontend dependencies
 cd frontend
-npm install
+bun install
 cd ..
 ```
 
@@ -44,10 +44,10 @@ Create a file named **`.env`** in the root folder of the project (`CareChain/.en
 
 ```env
 # MongoDB Database Connection URL (Replace with your Atlas or Local URL)
-MONGODB_URI=mongodb+srv://<username>:<password>@cluster0.0747qrg.mongodb.net/carechain
+MONGODB_URI=mongodb+srv://<username>:<password>@<cluster>.mongodb.net/carechain
 
 # JWT Secret for backend authentication
-JWT_SECRET=carechain_super_secret_jwt_key_change_in_production_2026
+JWT_SECRET=your_jwt_secret_here_change_in_production
 
 # Pinata IPFS Credentials (Required for real IPFS uploads)
 # Get a free JWT from: https://app.pinata.cloud/developers/api-keys
@@ -55,7 +55,7 @@ PINATA_JWT=your_pinata_jwt_token_here
 PINATA_GATEWAY=https://gateway.pinata.cloud/ipfs/
 
 # Blockchain Configuration (Pre-configured for local & testnet)
-ETHERSCAN_API_KEY=HQMA7A9D479M9UVJT3XBKPJQXN4ZCWSKSB
+ETHERSCAN_API_KEY=your_etherscan_api_key_here
 SEPOLIA_RPC_URL=https://rpc.sepolia.org
 POLYGON_AMOY_RPC_URL=https://rpc-amoy.polygon.technology
 ```
@@ -72,7 +72,7 @@ Open **3 separate terminal tabs/windows** in the project root:
 ### **Terminal 1: Local Blockchain Node**
 ```powershell
 # Start local Ethereum blockchain node (runs at http://127.0.0.1:8545)
-npx hardhat node
+bunx hardhat node
 ```
 *(Leave this terminal running. It generates 20 pre-funded test accounts with 10,000 ETH each).*
 
@@ -81,16 +81,16 @@ npx hardhat node
 ### **Terminal 2: Deploy Smart Contract & Start Backend**
 ```powershell
 # 1. Compile smart contracts
-npm run compile
+bun run compile
 
 # 2. Deploy MedicalRecord contract to local node
-npm run deploy:local
+bun run deploy:local
 
 # 3. Seed demo accounts (Patient, Doctor, Admin)
-npm run seed:demo
+bun run seed:demo
 
 # 4. Start the backend API server (runs at http://localhost:5000)
-npm run start:backend
+bun run start:backend
 ```
 
 ---
@@ -98,7 +98,7 @@ npm run start:backend
 ### **Terminal 3: Start Frontend Client**
 ```powershell
 # Start the React frontend application
-npm run start:frontend
+bun run start:frontend
 ```
 *Your browser will automatically open **http://localhost:3000**.*
 
@@ -173,5 +173,5 @@ Click the **Account dropdown** at top center → **Add account or hardware walle
 |---|---|---|
 | `Port 8545 / 5000 / 3000 in use` | Old background node process | Run `taskkill /IM node.exe /F` (Windows) or `killall node` (Mac/Linux). |
 | `Could not connect to any servers in your MongoDB Atlas cluster` | IP not whitelisted on Atlas | Go to MongoDB Atlas → **Network Access** → Add `0.0.0.0/0`. |
-| `Contract not deployed` | Smart contract address mismatch | Run `npm run deploy:local` while `npx hardhat node` is active. |
+| `Contract not deployed` | Smart contract address mismatch | Run `bun run deploy:local` while `bunx hardhat node` is active. |
 | `Nonce too high / Transaction error` | MetaMask nonce desync | In MetaMask: Settings → Advanced → **Clear activity tab data**. |

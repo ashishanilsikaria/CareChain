@@ -1,13 +1,13 @@
 # Multi-stage production build for CareChain Frontend
-FROM node:18-alpine AS builder
+FROM oven/bun:1.4-alpine AS builder
 
 WORKDIR /app
 
-COPY package*.json ./
-RUN npm ci
+COPY package.json ./
+RUN bun install
 
 COPY . .
-RUN npm run build
+RUN bun run build
 
 # Stage 2: Serve with Nginx
 FROM nginx:alpine

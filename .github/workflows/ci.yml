@@ -15,20 +15,19 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v2
         with:
-          node-version: 18
-          cache: 'npm'
+          bun-version: 1.4.0
 
       - name: Install Root Dependencies
-        run: npm ci
+        run: bun install --frozen-lockfile
 
       - name: Compile Solidity Contracts
-        run: npx hardhat compile
+        run: bunx hardhat compile
 
       - name: Run Hardhat Test Suite
-        run: npx hardhat test
+        run: bunx hardhat test
 
   # 2. Backend Validation
   backend-lint-and-check:
@@ -38,15 +37,14 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v2
         with:
-          node-version: 18
-          cache: 'npm'
+          bun-version: 1.4.0
 
       - name: Install Backend Dependencies
         working-directory: ./backend
-        run: npm ci
+        run: bun install --frozen-lockfile
 
       - name: Verify Backend Syntax & Imports
         working-directory: ./backend
@@ -60,18 +58,17 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v2
         with:
-          node-version: 18
-          cache: 'npm'
+          bun-version: 1.4.0
 
       - name: Install Frontend Dependencies
         working-directory: ./frontend
-        run: npm ci
+        run: bun install --frozen-lockfile
 
       - name: Build Production Frontend
         working-directory: ./frontend
-        run: npm run build
+        run: bun run build
         env:
           CI: false

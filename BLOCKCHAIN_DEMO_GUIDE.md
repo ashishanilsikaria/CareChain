@@ -5,7 +5,7 @@
 **Contract**: `MedicalRecord.sol`  
 **Network**: Hardhat Local / Ethereum Sepolia / Polygon Amoy  
 **Contract Address (Local)**: `0x5FbDB2315678afecb367f032d93F642f64180aa3`  
-**Etherscan API Key**: `HQMA7A9D479M9UVJT3XBKPJQXN4ZCWSKSB`
+**Etherscan API Key**: `your_etherscan_api_key_here`
 
 ---
 
@@ -42,7 +42,7 @@
 ```cmd
 cd /e/dev/Project 1/CareChain
 set HARDHAT_ANALYTICS=false
-npm run dev:all
+bun run dev:all
 ```
 
 This starts:
@@ -64,31 +64,31 @@ Open your browser to: **http://localhost:3000**
 :: Deploy to Hardhat internal network (no separate node needed)
 cd /e/dev/Project 1/CareChain
 set HARDHAT_ANALYTICS=false
-npx hardhat run scripts/deploy.js --network hardhat
+bunx hardhat run scripts/deploy.js --network hardhat
 
 :: Deploy to local Hardhat node
 set HARDHAT_ANALYTICS=false
-npx hardhat run scripts/deploy.js --network localhost
+bunx hardhat run scripts/deploy.js --network localhost
 
 :: Deploy to Ethereum Sepolia
 set PRIVATE_KEY=your_private_key_here
 set HARDHAT_ANALYTICS=false
-npx hardhat run scripts/deploy.js --network sepolia
+bunx hardhat run scripts/deploy.js --network sepolia
 
 :: Deploy to Polygon Amoy
 set PRIVATE_KEY=your_private_key_here
 set HARDHAT_ANALYTICS=false
-npx hardhat run scripts/deploy.js --network polygonAmoy
+bunx hardhat run scripts/deploy.js --network polygonAmoy
 
 :: Deploy + Auto-Verify on Sepolia
 set PRIVATE_KEY=your_private_key_here
 set HARDHAT_ANALYTICS=false
-npx hardhat run scripts/deploy-and-verify.js --network sepolia
+bunx hardhat run scripts/deploy-and-verify.js --network sepolia
 
 :: Deploy + Auto-Verify on Polygon Amoy
 set PRIVATE_KEY=your_private_key_here
 set HARDHAT_ANALYTICS=false
-npx hardhat run scripts/deploy-and-verify.js --network polygonAmoy
+bunx hardhat run scripts/deploy-and-verify.js --network polygonAmoy
 ```
 
 ### PowerShell
@@ -97,39 +97,39 @@ npx hardhat run scripts/deploy-and-verify.js --network polygonAmoy
 # Deploy to Hardhat internal network
 cd E:\dev\Project 1\CareChain
 $env:HARDHAT_ANALYTICS = "false"
-npx hardhat run scripts/deploy.js --network hardhat
+bunx hardhat run scripts/deploy.js --network hardhat
 
 # Deploy to local Hardhat node
 $env:HARDHAT_ANALYTICS = "false"
-npx hardhat run scripts/deploy.js --network localhost
+bunx hardhat run scripts/deploy.js --network localhost
 
 # Deploy + Verify on Sepolia
 $env:PRIVATE_KEY = "your_private_key_here"
 $env:HARDHAT_ANALYTICS = "false"
-npx hardhat run scripts/deploy-and-verify.js --network sepolia
+bunx hardhat run scripts/deploy-and-verify.js --network sepolia
 ```
 
-### npm Scripts (Cross-Platform)
+### Bun Scripts (Cross-Platform)
 
 ```cmd
 :: Local deployment
-npm run deploy:local
+bun run deploy:local
 
 :: Sepolia deployment
-npm run deploy:sepolia
+bun run deploy:sepolia
 
 :: Polygon Amoy deployment
-npm run deploy:amoy
+bun run deploy:amoy
 
 :: Sepolia with auto-verification
-npm run deploy-and-verify:sepolia
+bun run deploy-and-verify:sepolia
 
 :: Amoy with auto-verification
-npm run deploy-and-verify:amoy
+bun run deploy-and-verify:amoy
 
 :: Manual verification (after deployment)
-npm run verify:sepolia 0xYOUR_CONTRACT_ADDRESS
-npm run verify:amoy 0xYOUR_CONTRACT_ADDRESS
+bun run verify:sepolia 0xYOUR_CONTRACT_ADDRESS
+bun run verify:amoy 0xYOUR_CONTRACT_ADDRESS
 ```
 
 ---
@@ -142,7 +142,7 @@ npm run verify:amoy 0xYOUR_CONTRACT_ADDRESS
 ```cmd
 cd /e/dev/Project 1/CareChain
 set HARDHAT_ANALYTICS=false
-npm run dev:all
+bun run dev:all
 ```
 
 **Wait for all services to start** (look for:
@@ -172,7 +172,7 @@ npm run dev:all
 ### Step 3: Seed Demo Users
 
 ```cmd
-npm --prefix backend run seed:demo
+bun --cwd backend run seed:demo
 ```
 
 Creates 3 users:
@@ -268,7 +268,7 @@ Creates 3 users:
 Edit `.env` file:
 ```env
 # For Sepolia
-ETHERSCAN_API_KEY=HQMA7A9D479M9UVJT3XBKPJQXN4ZCWSKSB
+ETHERSCAN_API_KEY=your_etherscan_api_key_here
 SEPOLIA_RPC_URL=https://rpc.sepolia.org
 PRIVATE_KEY=your_wallet_private_key_here
 
@@ -282,11 +282,11 @@ PRIVATE_KEY=your_wallet_private_key_here
 ```cmd
 :: Sepolia
 set HARDHAT_ANALYTICS=false
-npm run deploy-and-verify:sepolia
+bun run deploy-and-verify:sepolia
 
 :: Polygon Amoy
 set HARDHAT_ANALYTICS=false
-npm run deploy-and-verify:amoy
+bun run deploy-and-verify:amoy
 ```
 
 ### Step 4: Verify on Blockchain Explorers
@@ -306,7 +306,7 @@ For **live coding demos**, use Hardhat console:
 :: Start console connected to local node
 cd /e/dev/Project 1/CareChain
 set HARDHAT_ANALYTICS=false
-npx hardhat console --network localhost
+bunx hardhat console --network localhost
 ```
 
 ### Example Console Session
@@ -374,19 +374,19 @@ try {
 ```cmd
 :: Sepolia
 set HARDHAT_ANALYTICS=false
-npm run deploy-and-verify:sepolia
+bun run deploy-and-verify:sepolia
 
 :: Polygon Amoy
 set HARDHAT_ANALYTICS=false
-npm run deploy-and-verify:amoy
+bun run deploy-and-verify:amoy
 ```
 
 ### Manual Verification
 
 ```cmd
 :: After deployment, run:
-npm run verify:sepolia 0xYOUR_CONTRACT_ADDRESS
-npm run verify:amoy 0xYOUR_CONTRACT_ADDRESS
+bun run verify:sepolia 0xYOUR_CONTRACT_ADDRESS
+bun run verify:amoy 0xYOUR_CONTRACT_ADDRESS
 ```
 
 ### Verification on Etherscan Website
@@ -406,7 +406,7 @@ npm run verify:amoy 0xYOUR_CONTRACT_ADDRESS
 
 | Issue | Cause | Solution |
 |-------|-------|----------|
-| `Cannot connect to network localhost` | No Hardhat node running | Run `npx hardhat node` in separate window |
+| `Cannot connect to network localhost` | No Hardhat node running | Run `bunx hardhat node` in separate window |
 | `API key invalid` | Wrong Etherscan key | Check `.env` file for correct key |
 | `Nonce too low` | Transaction already sent | Wait 15 seconds, retry |
 | `Insufficient funds` | Wallet has no test ETH | Get from faucet |
@@ -431,8 +431,8 @@ taskkill /IM node.exe /F
 :: Clear artifacts and redeploy
 rmdir /s /q artifacts
 rmdir /s /q cache
-npm run compile
-npm run deploy:local
+bun run compile
+bun run deploy:local
 ```
 
 ---
@@ -468,8 +468,8 @@ networks: {
 | Network | Address | Deployed At |
 |---------|---------|-------------|
 | Hardhat | `0x5FbDB2315678afecb367f032d93F642f64180aa3` | Local deployment |
-| Sepolia | (Deploy with `npm run deploy:sepolia`) | - |
-| Polygon Amoy | (Deploy with `npm run deploy:amoy`) | - |
+| Sepolia | (Deploy with `bun run deploy:sepolia`) | - |
+| Polygon Amoy | (Deploy with `bun run deploy:amoy`) | - |
 
 ### Smart Contract Features
 
@@ -555,22 +555,22 @@ networks: {
 
 ```cmd
 :: Compile contracts
-npm run compile
+bun run compile
 
 :: Run all tests
-npm run test:contracts
+bun run test:contracts
 
 :: Start local node
-npx hardhat node
+bunx hardhat node
 
 :: Deploy locally
-npm run deploy:local
+bun run deploy:local
 
 :: Start full stack
-npm run dev:all
+bun run dev:all
 
 :: Seed demo users
-npm --prefix backend run seed:demo
+bun --cwd backend run seed:demo
 
 :: Check health
 curl http://localhost:5000/healthz
@@ -586,4 +586,5 @@ This guide and the CareChain project are licensed under **MIT License**.
 
 *Last Updated: September 2026*  
 *Contract Address (Local): `0x5FbDB2315678afecb367f032d93F642f64180aa3`*  
-*Etherscan API Key: `HQMA7A9D479M9UVJT3XBKPJQXN4ZCWSKSB`*
+*Etherscan API Key: `your_etherscan_api_key_here`*
+

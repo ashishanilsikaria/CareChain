@@ -10,7 +10,7 @@
 ```cmd
 cd /e/dev/Project 1/CareChain
 set HARDHAT_ANALYTICS=false
-npm run dev:all
+bun run dev:all
 ```
 
 ### 2. Open Browser
@@ -49,25 +49,25 @@ npm run dev:all
 
 ### Deployment
 ```cmd
-npm run deploy:local          :: Local Hardhat network
-npm run deploy:sepolia        :: Ethereum Sepolia testnet
-npm run deploy:amoy           :: Polygon Amoy testnet
-npm run deploy-and-verify:sepolia :: Deploy + verify on Sepolia
-npm run deploy-and-verify:amoy    :: Deploy + verify on Amoy
+bun run deploy:local          :: Local Hardhat network
+bun run deploy:sepolia        :: Ethereum Sepolia testnet
+bun run deploy:amoy           :: Polygon Amoy testnet
+bun run deploy-and-verify:sepolia :: Deploy + verify on Sepolia
+bun run deploy-and-verify:amoy    :: Deploy + verify on Amoy
 ```
 
 ### Testing
 ```cmd
-npm run test:contracts       :: Run all 11 contract tests
-npm run compile              :: Compile contracts
+bun run test:contracts       :: Run all 11 contract tests
+bun run compile              :: Compile contracts
 ```
 
 ### Services
 ```cmd
-npm run dev:all              :: Blockchain + Backend + Frontend
-npm run start                :: Backend + Frontend only
-npx hardhat node             :: Local blockchain node only
-npm run seed:demo            :: Create demo users
+bun run dev:all              :: Blockchain + Backend + Frontend
+bun run start                :: Backend + Frontend only
+bunx hardhat node             :: Local blockchain node only
+bun run seed:demo            :: Create demo users
 ```
 
 ---
@@ -85,7 +85,7 @@ npm run seed:demo            :: Create demo users
 ## 🔑 ENVIRONMENT VARIABLES (.env)
 
 ```env
-ETHERSCAN_API_KEY=HQMA7A9D479M9UVJT3XBKPJQXN4ZCWSKSB
+ETHERSCAN_API_KEY=your_etherscan_api_key_here
 SEPOLIA_RPC_URL=https://rpc.sepolia.org
 POLYGON_AMOY_RPC_URL=https://rpc-amoy.polygon.technology
 PRIVATE_KEY=your_private_key_here
@@ -120,7 +120,7 @@ setDoctorVerification(doctor, isVerified)            :: Admin verifies doctor
 | Port 8545 in use | `taskkill /IM node.exe /F` |
 | Telemetry prompt | `set HARDHAT_ANALYTICS=false` |
 | No funds | Get from [Sepolia Faucet](https://sepoliafaucet.com) or [Polygon Faucet](https://faucet.polygon.technology) |
-| Connection refused | Start `npx hardhat node` first |
+| Connection refused | Start `bunx hardhat node` first |
 
 ---
 
@@ -153,14 +153,14 @@ For detailed instructions, see: **[BLOCKCHAIN_DEMO_GUIDE.md](BLOCKCHAIN_DEMO_GUI
 | Network | Address | Status |
 |---------|---------|--------|
 | Hardhat | `0x5FbDB2315678afecb367f032d93F642f64180aa3` | ✅ Deployed |
-| Sepolia | (run `npm run deploy:sepolia`) | ⏳ |
-| Amoy | (run `npm run deploy:amoy`) | ⏳ |
+| Sepolia | (run `bun run deploy:sepolia`) | ⏳ |
+| Amoy | (run `bun run deploy:amoy`) | ⏳ |
 
 ---
 
 ## 💡 PRO TIPS
 
-- **Use `npm run dev:all`** for instant demo environment
+- **Use `bun run dev:all`** for instant demo environment
 - **Use Account 0** for Patient, **Account 1** for Doctor
 - **Test with any file** - PDF, JPG, PNG all work
 - **Refresh after actions** - See real-time updates
@@ -170,7 +170,7 @@ For detailed instructions, see: **[BLOCKCHAIN_DEMO_GUIDE.md](BLOCKCHAIN_DEMO_GUI
 
 ## 📞 SUPPORT
 
-- **Etherscan API Key**: `HQMA7A9D479M9UVJT3XBKPJQXN4ZCWSKSB`
+- **Etherscan API Key**: `your_etherscan_api_key_here`
 - **Contract**: `MedicalRecord.sol`
 - **Tests**: 11/11 passing
 - **Coverage**: 100%

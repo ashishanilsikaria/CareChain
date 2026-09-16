@@ -1,11 +1,11 @@
 # CareChain Backend Production Dockerfile
-FROM node:18-alpine AS base
+FROM oven/bun:1.4-alpine AS base
 
 WORKDIR /app
 
 # Install dependencies
-COPY package*.json ./
-RUN npm ci --only=production
+COPY package.json ./
+RUN bun install --production
 
 # Copy source code
 COPY . .
@@ -14,4 +14,4 @@ COPY . .
 EXPOSE 5000
 
 # Start server
-CMD ["node", "server.js"]
+CMD ["bun", "server.js"]

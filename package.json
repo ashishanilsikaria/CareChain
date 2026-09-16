@@ -2,18 +2,20 @@
   "name": "carechain-monorepo",
   "version": "2.0.0",
   "private": true,
+  "type": "module",
+  "packageManager": "bun@1.4.0",
   "description": "CareChain - Enterprise Decentralized Electronic Health Record Protocol",
   "workspaces": [
     "backend",
     "frontend"
   ],
   "scripts": {
-    "start": "concurrently -n \"BACKEND,FRONTEND\" -c \"cyan,magenta\" \"npm run start:backend\" \"npm run start:frontend\"",
-    "dev": "concurrently -n \"BACKEND,FRONTEND\" -c \"cyan,magenta\" \"npm run start:backend\" \"npm run start:frontend\"",
-    "dev:all": "concurrently -n \"BLOCKCHAIN,BACKEND,FRONTEND\" -c \"yellow,cyan,magenta\" \"npx hardhat node\" \"npm run start:backend\" \"npm run start:frontend\"",
+    "start": "concurrently -n \"BACKEND,FRONTEND\" -c \"cyan,magenta\" \"bun run start:backend\" \"bun run start:frontend\"",
+    "dev": "concurrently -n \"BACKEND,FRONTEND\" -c \"cyan,magenta\" \"bun run start:backend\" \"bun run start:frontend\"",
+    "dev:all": "concurrently -n \"BLOCKCHAIN,BACKEND,FRONTEND\" -c \"yellow,cyan,magenta\" \"bunx hardhat node\" \"bun run start:backend\" \"bun run start:frontend\"",
     "compile": "hardhat compile",
     "test:contracts": "hardhat test",
-    "test:all": "hardhat test && npm --prefix frontend test -- --watchAll=false",
+    "test:all": "hardhat test && bun --cwd frontend test -- --watchAll=false",
     "deploy:local": "hardhat run scripts/deploy.js --network localhost",
     "deploy:sepolia": "hardhat run scripts/deploy.js --network sepolia",
     "deploy:amoy": "hardhat run scripts/deploy.js --network polygonAmoy",
@@ -21,10 +23,10 @@
     "deploy-and-verify:amoy": "hardhat run scripts/deploy-and-verify.js --network polygonAmoy",
     "verify:sepolia": "hardhat verify --network sepolia",
     "verify:amoy": "hardhat verify --network polygonAmoy",
-    "start:backend": "npm --prefix backend start",
-    "seed:demo": "npm --prefix backend run seed:demo",
-    "start:frontend": "npm --prefix frontend start",
-    "build:frontend": "npm --prefix frontend run build",
+    "start:backend": "bun --cwd backend start",
+    "seed:demo": "bun --cwd backend run seed:demo",
+    "start:frontend": "bun --cwd frontend start",
+    "build:frontend": "bun --cwd frontend run build",
     "build:presentation:py": "python scripts/build_presentation.py",
     "build:presentation:js": "node scripts/build_presentation.js",
     "build:review1": "python scripts/build_review1_presentation.py",
@@ -33,7 +35,7 @@
     "build:review2:ppt": "python scripts/build_review2_presentation.py",
     "build:review2:all": "python scripts/build_review2_diagrams.py && python scripts/build_review2_report.py && python scripts/build_review2_presentation.py",
     "verify:review2": "python scripts/verify_review2_report.py && python scripts/verify_review2_presentation.py",
-    "build:all": "hardhat compile && npm --prefix frontend run build"
+    "build:all": "hardhat compile && bun --cwd frontend run build"
   },
   "keywords": [
     "carechain",
@@ -48,14 +50,11 @@
   "author": "CareChain Core Team",
   "license": "MIT",
   "devDependencies": {
-    "@nomicfoundation/hardhat-chai-matchers": "^2.1.2",
-    "@nomicfoundation/hardhat-ethers": "^3.1.3",
-    "@nomicfoundation/hardhat-network-helpers": "^1.1.2",
-    "@nomicfoundation/hardhat-toolbox": "^6.1.0",
-    "chai": "^4.5.0",
+    "@nomicfoundation/hardhat-toolbox-mocha-ethers": "^3.0.7",
+    "chai": "^6.2.2",
     "concurrently": "^10.0.5",
     "ethers": "^6.17.0",
-    "hardhat": "^2.26.5",
+    "hardhat": "^3.15.0",
     "pptxgenjs": "^4.0.1"
   }
 }

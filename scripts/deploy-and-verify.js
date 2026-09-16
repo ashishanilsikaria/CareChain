@@ -1,8 +1,11 @@
 // scripts/deploy-and-verify.js
 // Deploys MedicalRecord contract and verifies on Etherscan
-const hre = require("hardhat");
-const fs = require("fs");
-const path = require("path");
+import hre from "hardhat";
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 async function main() {
   const network = hre.network.name;
@@ -71,7 +74,7 @@ async function main() {
       console.warn("⚠️  Verification skipped or failed:", error.message);
       console.log("   You can manually verify later with:");
       console.log(
-        `   npx hardhat verify --network ${network} ${contractAddress} "MedicalRecord"`
+        `   bunx hardhat verify --network ${network} ${contractAddress} "MedicalRecord"`
       );
     }
   }

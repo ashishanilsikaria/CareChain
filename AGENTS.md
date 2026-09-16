@@ -42,7 +42,7 @@ When interacting with this codebase, agents must assume or consult the following
 ### 🧪 4. QA & Reliability Engineer
 - **Domain**: Automated Test Suites (`test/`, `frontend/src/__tests__`)
 - **Core Directives**:
-  - Verify every code change passes contract tests (`npx hardhat test`) and builds cleanly without warnings.
+  - Verify every code change passes contract tests (`bunx hardhat test`) and builds cleanly without warnings.
   - Prevent regressions in role permission boundaries and token verification.
 
 ---
@@ -60,20 +60,20 @@ When interacting with this codebase, agents must assume or consult the following
 
 ```bash
 # --- Smart Contracts ---
-npx hardhat compile                   # Compile Solidity contracts
-npx hardhat test                      # Run test suite
-npx hardhat run scripts/deploy.js     # Deploy locally & export ABI
+bunx hardhat compile                  # Compile Solidity contracts
+bunx hardhat test                     # Run test suite
+bunx hardhat run scripts/deploy.js    # Deploy locally & export ABI
 
 # --- Backend Service ---
 cd backend
-npm install                           # Install backend dependencies
-npm start                             # Start server on http://localhost:5000
+bun install                           # Install backend dependencies
+bun start                             # Start server on http://localhost:5000
 
 # --- Frontend Application ---
 cd frontend
-npm install                           # Install frontend dependencies
-npm start                             # Launch dev server on http://localhost:3000
-npm run build                         # Compile production bundle
+bun install                           # Install frontend dependencies
+bun start                             # Launch dev server on http://localhost:3000
+bun run build                         # Compile production bundle
 ```
 
 ---
@@ -83,6 +83,6 @@ npm run build                         # Compile production bundle
 Before completing any task or PR on this repository, verify:
 - [ ] `MedicalRecord.test.js` passes with 100% tests green.
 - [ ] No private keys, database passwords, or JWT secrets are present in tracked files.
-- [ ] `npm run build` in `frontend/` completes with 0 errors.
+- [ ] `bun run build` in `frontend/` completes with 0 errors.
 - [ ] All routes have role authorization checks applied.
 - [ ] Documentation and architectural guides remain accurate and up-to-date.

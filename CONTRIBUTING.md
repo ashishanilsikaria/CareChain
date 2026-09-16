@@ -13,7 +13,7 @@ We are committed to providing a welcoming, inclusive, and harassment-free enviro
 
 ### Prerequisites
 - Node.js `>= 18.0.0`
-- npm `>= 9.0.0`
+- Bun `>= 1.4.0`
 - Docker (optional, for containerized local services)
 
 ### Setup Instructions
@@ -23,14 +23,14 @@ git clone https://github.com/your-org/carechain.git
 cd carechain
 
 # 2. Install monorepo dependencies
-npm install
+bun install
 
 # 3. Run smart contract test suite
-npm run test:contracts
+bun run test:contracts
 
 # 4. Start local development
-npm run start:backend  # terminal 1
-npm run start:frontend # terminal 2
+bun run start:backend  # terminal 1
+bun run start:frontend # terminal 2
 ```
 
 ---
@@ -55,7 +55,7 @@ We follow the **Conventional Commits** specification (`<type>(<scope>): <subject
 ## 4. Pull Request Checklist
 
 Before submitting a Pull Request, ensure:
-1. All smart contract tests pass with 100% success (`npm run test:contracts`).
-2. Production frontend build succeeds with zero errors or warnings (`npm run build:frontend`).
+1. All smart contract tests pass with 100% success (`bun run test:contracts`).
+2. Production frontend build succeeds with zero errors or warnings (`bun run build:frontend`).
 3. No secrets, API keys, or private credentials are included in code or commits.
 4. Clean branch name: `feature/short-description` or `fix/short-description`.
