@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
-import { getProfile, loginUser as apiLogin, registerUser as apiRegister } from "../api";
+import { getProfile, loginWithWallet as apiLogin, registerWithWallet as apiRegister } from "../api";
 
 const AuthContext = createContext(null);
 
@@ -28,13 +28,15 @@ export const AuthProvider = ({ children }) => {
     initAuth();
   }, [token]);
 
-  const login = async (email, password) => {
-    const res = await apiLogin(email, password);
+  // `signed` = { walletAddress, message, signature } produced by the wallet flow.
+  const login = async (signed) => {
+    const res = await apiLogin(signed);
     setToken(res.token);
     setUser(res.user);
     return res;
   };
 
+  // `payload` = profile fields + { walletAddress, message, signature }.
   const register = async (payload) => {
     const res = await apiRegister(payload);
     setToken(res.token);

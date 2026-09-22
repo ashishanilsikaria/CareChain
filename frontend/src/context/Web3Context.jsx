@@ -1,32 +1,15 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
 import { ethers } from "ethers";
-import { updateWallet } from "../api";
-import { useAuth } from "./AuthContext";
 
 const Web3Context = createContext(null);
 
 export const Web3Provider = ({ children }) => {
-  const { user, refreshUser } = useAuth();
   const [account, setAccount] = useState(null);
   const [chainId, setChainId] = useState(null);
   const [provider, setProvider] = useState(null);
   const [signer, setSigner] = useState(null);
   const [isConnecting, setIsConnecting] = useState(false);
   const [error, setError] = useState("");
-
-  const handleWalletSync = useCallback(
-    async (newAddress) => {
-      if (user && user.walletAddress !== newAddress.toLowerCase()) {
-        try {
-          await updateWallet(newAddress);
-          refreshUser();
-        } catch (err) {
-          console.warn("Wallet sync warning:", err.message);
-        }
-      }
-    },
-    [user, refreshUser]
-  );
 
   useEffect(() => {
     if (typeof window !== "undefined" && window.ethereum) {
@@ -49,7 +32,6 @@ export const Web3Provider = ({ children }) => {
           setAccount(accounts[0]);
           const browserSigner = await browserProvider.getSigner();
           setSigner(browserSigner);
-          handleWalletSync(accounts[0]);
         } else {
           setAccount(null);
           setSigner(null);
@@ -70,11 +52,11 @@ export const Web3Provider = ({ children }) => {
         }
       };
     }
-  }, [handleWalletSync]);
+  }, []);
 
-  const connectWallet = async () => {
+  const connectWallet = useCallback(async () => {
     if (typeof window === "undefined" || !window.ethereum) {
-      alert("MetaMask or Web3 wallet extension not detected. You can still use simulated off-chain mode!");
+      setError("MetaMask or Web3 wallet extension not detected. A wallet is required to authenticate.");
       return null;
     }
 
@@ -92,16 +74,29 @@ export const Web3Provider = ({ children }) => {
       setChainId(network.chainId.toString());
       setProvider(browserProvider);
 
-      handleWalletSync(activeAccount);
       return activeAccount;
     } catch (err) {
       console.error("Wallet connection error:", err);
-      setError(err.message || "Failed to connect wallet");
+      setError(err.shortMessage || err.message || "Failed to connect wallet");
       return null;
     } finally {
       setIsConnecting(false);
     }
-  };
+  }, []);
+
+  // Signs an arbitrary UTF-8 message (EIP-191 personal_sign) with the active
+  // account's key. Used to prove wallet ownership during auth.
+  const signMessage = useCallback(
+    async (message) => {
+      const activeProvider = provider || (typeof window !== "undefined" && window.ethereum
+        ? new ethers.BrowserProvider(window.ethereum)
+        : null);
+      if (!activeProvider) throw new Error("No wallet provider available");
+      const activeSigner = signer || (await activeProvider.getSigner());
+      return activeSigner.signMessage(message);
+    },
+    [provider, signer]
+  );
 
   const disconnectWallet = () => {
     setAccount(null);
@@ -119,6 +114,7 @@ export const Web3Provider = ({ children }) => {
         error,
         connectWallet,
         disconnectWallet,
+        signMessage,
         isWalletConnected: !!account,
         shortAddress: account ? `${account.slice(0, 6)}...${account.slice(-4)}` : "",
       }}

@@ -29,7 +29,7 @@ router.get("/doctors", authMiddleware, async (req, res) => {
  */
 router.get("/admin/all", authMiddleware, allowRoles("admin"), async (req, res) => {
   try {
-    const users = await User.find().select("-password").sort({ createdAt: -1 }).lean();
+    const users = await User.find().select("-nonce").sort({ createdAt: -1 }).lean();
     return res.json({ success: true, count: users.length, users });
   } catch (err) {
     console.error("Admin Fetch Users Error:", err);
@@ -48,7 +48,7 @@ router.patch("/admin/verify/:userId", authMiddleware, allowRoles("admin"), async
       req.params.userId,
       { isVerified: isVerified !== undefined ? isVerified : true },
       { new: true }
-    ).select("-password");
+    ).select("-nonce");
 
     if (!user) return res.status(404).json({ error: "User not found" });
 

@@ -1,48 +1,61 @@
 import React, { useState } from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { Activity, Lock, Mail, AlertCircle, ArrowRight, Stethoscope, Building2, User } from "lucide-react";
+import { useWeb3 } from "../context/Web3Context";
+import { requestNonce } from "../api";
+import { Activity, Wallet, AlertCircle, ArrowRight, ShieldCheck } from "lucide-react";
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [selectedRole, setSelectedRole] = useState("patient");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   const { login } = useAuth();
+  const { account, chainId, connectWallet, signMessage, isConnecting } = useWeb3();
   const navigate = useNavigate();
-  const location = useLocation();
 
-  // If role passed in navigation state
-  React.useEffect(() => {
-    if (location.state?.role) {
-      setSelectedRole(location.state.role.toLowerCase());
-    }
-  }, [location.state]);
+  const routeByRole = (role) => {
+    if (role === "doctor") navigate("/doctor-dashboard");
+    else if (role === "admin") navigate("/admin-dashboard");
+    else navigate("/patient-dashboard");
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!email || !password) {
-      setError("Please fill in both email and password.");
-      return;
-    }
+    setError("");
 
     try {
       setLoading(true);
-      setError("");
-      const res = await login(email, password);
-      const userRole = res.user?.role || selectedRole;
 
-      if (userRole === "doctor") {
-        navigate("/doctor-dashboard");
-      } else if (userRole === "admin") {
-        navigate("/admin-dashboard");
-      } else {
-        navigate("/patient-dashboard");
+      // 1. Make sure a wallet is connected (identity = the wallet itself).
+      let activeAccount = account;
+      if (!activeAccount) {
+        activeAccount = await connectWallet();
+        if (!activeAccount) {
+          setError("A Web3 wallet is required to sign in.");
+          return;
+        }
       }
+
+      // 2. Ask the server for a single-use challenge message for this wallet.
+      const challenge = await requestNonce(activeAccount, chainId);
+      if (!challenge.registered) {
+        setError("No account found for this wallet. Please register first.");
+        return;
+      }
+
+      // 3. Sign the challenge with the wallet's private key (no password sent).
+      const signature = await signMessage(challenge.message);
+
+      // 4. Exchange the signature for a session token.
+      const res = await login({
+        walletAddress: activeAccount,
+        message: challenge.message,
+        signature,
+      });
+
+      routeByRole(res.user?.role);
     } catch (err) {
-      setError(err.message || "Invalid credentials");
+      setError(err.message || "Wallet authentication failed");
     } finally {
       setLoading(false);
     }
@@ -60,45 +73,8 @@ const Login = () => {
             Sign In to CareChain
           </h2>
           <p className="text-xs text-slate-500 mt-1">
-            Access your encrypted health vault and decentralized permissions
+            Access your encrypted health vault by proving ownership of your wallet
           </p>
-        </div>
-
-        {/* Role Selector Tabs */}
-        <div className="grid grid-cols-3 gap-1 bg-slate-200/80 p-1 rounded-xl mb-6 text-xs font-semibold">
-          <button
-            type="button"
-            onClick={() => setSelectedRole("patient")}
-            className={`py-2 rounded-lg flex items-center justify-center gap-1.5 transition-all ${
-              selectedRole === "patient"
-                ? "bg-white text-sky-700 shadow-sm"
-                : "text-slate-600 hover:text-slate-900"
-            }`}
-          >
-            <User className="w-3.5 h-3.5" /> Patient
-          </button>
-          <button
-            type="button"
-            onClick={() => setSelectedRole("doctor")}
-            className={`py-2 rounded-lg flex items-center justify-center gap-1.5 transition-all ${
-              selectedRole === "doctor"
-                ? "bg-white text-emerald-700 shadow-sm"
-                : "text-slate-600 hover:text-slate-900"
-            }`}
-          >
-            <Stethoscope className="w-3.5 h-3.5" /> Doctor
-          </button>
-          <button
-            type="button"
-            onClick={() => setSelectedRole("admin")}
-            className={`py-2 rounded-lg flex items-center justify-center gap-1.5 transition-all ${
-              selectedRole === "admin"
-                ? "bg-white text-purple-700 shadow-sm"
-                : "text-slate-600 hover:text-slate-900"
-            }`}
-          >
-            <Building2 className="w-3.5 h-3.5" /> Admin
-          </button>
         </div>
 
         {/* Form */}
@@ -111,59 +87,46 @@ const Login = () => {
               </div>
             )}
 
-            <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1">
-                Email Address
-              </label>
-              <div className="relative">
-                <Mail className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
-                <input
-                  type="email"
-                  placeholder="name@example.com"
-                  className="w-full pl-10 pr-3.5 py-2.5 text-sm border border-slate-300 rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none bg-white"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                />
+            <div className="flex items-center justify-between p-3 rounded-xl border border-slate-200 bg-slate-50">
+              <div className="flex items-center gap-2 text-xs">
+                <Wallet className="w-4 h-4 text-slate-500" />
+                <span className="font-bold text-slate-700">Wallet</span>
               </div>
+              {account ? (
+                <span className="font-mono text-[11px] text-slate-700">
+                  {account.slice(0, 6)}...{account.slice(-4)}
+                </span>
+              ) : (
+                <span className="text-[11px] text-slate-400">Not connected</span>
+              )}
             </div>
 
-            <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1">
-                Password
-              </label>
-              <div className="relative">
-                <Lock className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
-                <input
-                  type="password"
-                  placeholder="••••••••"
-                  className="w-full pl-10 pr-3.5 py-2.5 text-sm border border-slate-300 rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none bg-white"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                />
-              </div>
+            <div className="flex items-center gap-2 text-[11px] text-slate-500">
+              <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
+              You&apos;ll be asked to sign a gasless, single-use message. We never see a password or your key.
             </div>
 
             <button
               type="submit"
-              disabled={loading}
-              className="w-full py-2.5 rounded-xl font-semibold text-sm text-white bg-gradient-to-r from-sky-600 to-blue-600 hover:from-sky-700 hover:to-blue-700 shadow-md shadow-sky-500/20 transition-all flex items-center justify-center gap-2"
+              disabled={loading || isConnecting}
+              className="w-full py-2.5 rounded-xl font-semibold text-sm text-white bg-gradient-to-r from-sky-600 to-blue-600 hover:from-sky-700 hover:to-blue-700 shadow-md shadow-sky-500/20 transition-all flex items-center justify-center gap-2 disabled:opacity-60"
             >
-              <span>{loading ? "Authenticating..." : `Sign In as ${selectedRole.charAt(0).toUpperCase() + selectedRole.slice(1)}`}</span>
+              <span>
+                {loading
+                  ? "Awaiting signature..."
+                  : account
+                    ? "Sign In with Wallet"
+                    : "Connect Wallet & Sign In"}
+              </span>
               <ArrowRight className="w-4 h-4" />
             </button>
           </form>
 
           <div className="mt-6 pt-4 border-t border-slate-100 text-center">
             <p className="text-xs text-slate-600">
-              Don't have an account yet?{" "}
-              <Link
-                to="/register"
-                state={{ role: selectedRole }}
-                className="font-semibold text-sky-600 hover:underline"
-              >
-                Register as {selectedRole.charAt(0).toUpperCase() + selectedRole.slice(1)}
+              First time here?{" "}
+              <Link to="/register" className="font-semibold text-sky-600 hover:underline">
+                Register your wallet identity
               </Link>
             </p>
           </div>

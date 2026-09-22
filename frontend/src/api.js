@@ -10,8 +10,35 @@ export function getAuthHeader() {
   return token ? { Authorization: `Bearer ${token}` } : {};
 }
 
-// ---------- Auth APIs ----------
-export async function registerUser(payload) {
+// ---------- Auth APIs (wallet-signature based) ----------
+
+// Ask the server for a single-use challenge message to sign with the wallet.
+// `registered` tells the caller whether to sign in or register.
+export async function requestNonce(walletAddress, chainId) {
+  const res = await fetch(`${API_BASE}/auth/nonce`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ walletAddress, chainId }),
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error || "Failed to request sign-in challenge");
+  return data; // { success, registered, nonce, message }
+}
+
+// Prove key ownership: send back the exact signed message + signature.
+export async function loginWithWallet({ walletAddress, message, signature }) {
+  const res = await fetch(`${API_BASE}/auth/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ walletAddress, message, signature }),
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error || "Login failed");
+  if (data.token) localStorage.setItem("token", data.token);
+  return data;
+}
+
+export async function registerWithWallet(payload) {
   const res = await fetch(`${API_BASE}/auth/register`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -23,18 +50,6 @@ export async function registerUser(payload) {
   return data;
 }
 
-export async function loginUser(email, password) {
-  const res = await fetch(`${API_BASE}/auth/login`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ email, password }),
-  });
-  const data = await res.json();
-  if (!res.ok) throw new Error(data.error || "Login failed");
-  if (data.token) localStorage.setItem("token", data.token);
-  return data;
-}
-
 export async function getProfile() {
   const res = await fetch(`${API_BASE}/auth/me`, {
     headers: { ...getAuthHeader() },
@@ -42,20 +57,6 @@ export async function getProfile() {
   const data = await res.json();
   if (!res.ok) throw new Error(data.error || "Failed to fetch profile");
   return data.user;
-}
-
-export async function updateWallet(walletAddress) {
-  const res = await fetch(`${API_BASE}/auth/wallet`, {
-    method: "PATCH",
-    headers: {
-      "Content-Type": "application/json",
-      ...getAuthHeader(),
-    },
-    body: JSON.stringify({ walletAddress }),
-  });
-  const data = await res.json();
-  if (!res.ok) throw new Error(data.error || "Failed to link wallet");
-  return data;
 }
 
 // ---------- Record APIs ----------
