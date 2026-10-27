@@ -96,7 +96,7 @@ const Register = () => {
         signature,
       };
 
-      const res = await register(payload);
+      await register(payload);
 
       if (role === "doctor") navigate("/doctor-dashboard");
       else if (role === "admin") navigate("/admin-dashboard");

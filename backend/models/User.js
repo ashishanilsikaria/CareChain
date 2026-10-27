@@ -53,5 +53,20 @@ const userSchema = new mongoose.Schema(
 // Index for search & fast lookups
 userSchema.index({ role: 1 });
 
-const User = mongoose.model("User", userSchema);
+const UserModel = mongoose.model("User", userSchema);
+
+import { memoryUserStore } from "../utils/memoryStore.js";
+
+const User = new Proxy(UserModel, {
+  get(target, prop) {
+    if (mongoose.connection.readyState === 1) {
+      return Reflect.get(target, prop);
+    }
+    if (prop in memoryUserStore) {
+      return memoryUserStore[prop];
+    }
+    return Reflect.get(target, prop);
+  },
+});
+
 export default User;

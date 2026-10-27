@@ -21,5 +21,20 @@ const walletChallengeSchema = new mongoose.Schema(
   { timestamps: false }
 );
 
-const WalletChallenge = mongoose.model("WalletChallenge", walletChallengeSchema);
+const WalletChallengeModel = mongoose.model("WalletChallenge", walletChallengeSchema);
+
+import { memoryWalletChallengeStore } from "../utils/memoryStore.js";
+
+const WalletChallenge = new Proxy(WalletChallengeModel, {
+  get(target, prop) {
+    if (mongoose.connection.readyState === 1) {
+      return Reflect.get(target, prop);
+    }
+    if (prop in memoryWalletChallengeStore) {
+      return memoryWalletChallengeStore[prop];
+    }
+    return Reflect.get(target, prop);
+  },
+});
+
 export default WalletChallenge;

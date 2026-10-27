@@ -1,6 +1,5 @@
 {
   "address": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
-  "network": "localhost",
   "abi": [
     {
       "inputs": [],
@@ -445,5 +444,5 @@
       "type": "function"
     }
   ],
-  "deployedAt": "2026-09-02T02:25:24.164Z"
+  "deployedAt": "2026-10-05T05:41:26.463Z"
 }

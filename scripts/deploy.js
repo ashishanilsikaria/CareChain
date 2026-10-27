@@ -1,5 +1,5 @@
 // scripts/deploy.js
-import hre from "hardhat";
+import hre, { network } from "hardhat";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -7,10 +7,12 @@ import { fileURLToPath } from "url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 async function main() {
-  console.log("🚀 Deploying MedicalRecord contract to network:", hre.network.name);
+  const { ethers } = await network.connect();
+  const networkName = hre.network?.name || "localhost";
+  console.log("🚀 Deploying MedicalRecord contract to network:", networkName);
 
   // Get the contract factory
-  const MedicalRecord = await hre.ethers.getContractFactory("MedicalRecord");
+  const MedicalRecord = await ethers.getContractFactory("MedicalRecord");
 
   // Deploy the contract
   const medicalRecord = await MedicalRecord.deploy();

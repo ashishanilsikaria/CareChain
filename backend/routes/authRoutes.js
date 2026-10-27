@@ -6,7 +6,11 @@ import WalletChallenge from "../models/WalletChallenge.js";
 import { authMiddleware } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
-const JWT_SECRET = process.env.JWT_SECRET || "carechain_super_secret_jwt_key_change_in_production_2026";
+const JWT_SECRET = process.env.JWT_SECRET;
+
+if (!JWT_SECRET) {
+  throw new Error("JWT_SECRET is required. Set it in the environment before starting the backend.");
+}
 const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || "1d";
 const CHALLENGE_MAX_AGE_MS = 10 * 60 * 1000; // signed messages older than 10 min are rejected
 

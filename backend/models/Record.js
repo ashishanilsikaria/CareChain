@@ -85,5 +85,20 @@ recordSchema.index({ userId: 1, createdAt: -1 });
 recordSchema.index({ "sharedWith.doctor": 1 });
 recordSchema.index({ patientAddress: 1 });
 
-const Record = mongoose.model("Record", recordSchema);
+const RecordModel = mongoose.model("Record", recordSchema);
+
+import { memoryRecordStore } from "../utils/memoryStore.js";
+
+const Record = new Proxy(RecordModel, {
+  get(target, prop) {
+    if (mongoose.connection.readyState === 1) {
+      return Reflect.get(target, prop);
+    }
+    if (prop in memoryRecordStore) {
+      return memoryRecordStore[prop];
+    }
+    return Reflect.get(target, prop);
+  },
+});
+
 export default Record;
