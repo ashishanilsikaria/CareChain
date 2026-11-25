@@ -33,7 +33,7 @@ export async function loginWithWallet({ walletAddress, message, signature }) {
     body: JSON.stringify({ walletAddress, message, signature }),
   });
   const data = await res.json();
-  if (!res.ok) throw new Error(data.error || "Login failed");
+  if (!res.ok) throw new Error(data.details || data.error || "Login failed");
   if (data.token) localStorage.setItem("token", data.token);
   return data;
 }
@@ -45,7 +45,7 @@ export async function registerWithWallet(payload) {
     body: JSON.stringify(payload),
   });
   const data = await res.json();
-  if (!res.ok) throw new Error(data.error || "Registration failed");
+  if (!res.ok) throw new Error(data.details || data.error || "Registration failed");
   if (data.token) localStorage.setItem("token", data.token);
   return data;
 }

@@ -1,6 +1,7 @@
+import "../loadEnv.js";
 import jwt from "jsonwebtoken";
 
-const JWT_SECRET = process.env.JWT_SECRET;
+const JWT_SECRET = process.env.JWT_SECRET || "carechain_super_secret_jwt_key_change_in_production_2026";
 
 if (!JWT_SECRET) {
   throw new Error("JWT_SECRET is required. Set it in the environment before starting the backend.");
